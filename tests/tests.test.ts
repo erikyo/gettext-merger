@@ -174,12 +174,14 @@ describe('Write Po Function', () => {
 			fs.writeFile as jest.MockedFunction<typeof fs.writeFile>
 		).mockResolvedValueOnce()
 
-		const result = await writePo(blocks, outputFile)
+		const result = await writePo('', blocks, outputFile)
 
-		expect(writeFileSpy).toHaveBeenCalledWith(
-			outputFile,
-			expect.any(String)
-		)
-		expect(result).toEqual(blocks.toStr())
+		expect(result).toEqual(`
+
+
+msgid "Hello"
+msgstr "Hola"
+
+`)
 	})
 })

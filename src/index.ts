@@ -10,7 +10,7 @@ import yargs from 'yargs'
  *
  * @return {void} no return value
  */
-export default function gettextMerge() {
+export default function gettextMerger() {
 	const startTime = new Date()
 	const args = argv as unknown as { in: string[]; out: string }
 	console.log('🔥 Merging ' + args.in.join(', ') + ' into ' + args.out)
@@ -33,4 +33,4 @@ export default function gettextMerge() {
 	yargs.help()
 }
 
-gettextMerge()
+gettextMerger()
