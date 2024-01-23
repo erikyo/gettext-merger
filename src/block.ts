@@ -41,7 +41,7 @@ export class Block {
 		id: string,
 		single: boolean = false
 	): string | string[] {
-		let res: string[] = []
+		const res: string[] = []
 		let startParse = false
 
 		for (let i = 0; i < lines.length; i++) {

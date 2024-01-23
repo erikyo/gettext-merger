@@ -1,4 +1,4 @@
-# gettext-merger
+# Gettex Merger
 
 This tool is designed to merge translation files (pot files) for internationalization (i18n) in JavaScript projects. It is particularly useful when working with multiple contributors or maintaining translations across various versions of your project.
 

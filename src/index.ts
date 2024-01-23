@@ -19,7 +19,7 @@ export default function gettextMerger() {
 			const header = extractPotHeader(args.in[0] as string)
 			return writePo(header, res, args.out as string)
 		})
-		.then((res) => {
+		.then(() => {
 			console.log(
 				'🚀 Done in ' +
 					(new Date().getTime() - startTime.getTime()) / 1000 +

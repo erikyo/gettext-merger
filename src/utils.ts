@@ -1,5 +1,4 @@
 import { Block } from './block'
-import fs from 'fs/promises'
 import { readFileSync } from 'fs'
 
 /**

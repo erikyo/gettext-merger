@@ -123,7 +123,7 @@ export async function mergePotStrings(
 	)
 
 	// Retrieve the current blocks from the mergedSet
-	let currentBlocks = Array.from(mergedSet)
+	const currentBlocks = Array.from(mergedSet)
 	// Merge current blocks with the next array of blocks
 	return mergeBlocks(...currentBlocks)
 }

@@ -1,9 +1,10 @@
 {
 	"name": "gettext-merger",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A Node.js script for merging a POT/PO files",
 	"author": "Erik Golinelli <https://github.com/erikyo>",
 	"main": "lib/index.js",
+	"license": "LGPL-2.1-or-later",
 	"scripts": {
 		"build": "tsc --build",
 		"watch": "tsc --watch",
@@ -14,6 +15,32 @@
 	},
 	"bin": {
 		"gettext-merge": "lib/index.js"
+	},
+	"keywords": [
+		"merge",
+		"gettext",
+		"pot",
+		"po",
+		"translations",
+		"locale",
+		"i18n"
+	],
+	"files": [
+		"lib/",
+		"tests/runMerge.ts",
+		"tests/tests.test.ts",
+		"*.json",
+		".gitignore",
+		".eslintrc.js",
+		"LICENSE",
+		"README.md"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wp-blocks/isotolanguage.git"
+	},
+	"bugs": {
+		"url": "https://github.com/wp-blocks/isotolanguage/issues"
 	},
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
