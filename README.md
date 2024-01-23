@@ -1,4 +1,4 @@
-# i18n Merge Tool
+# gettext-merger
 
 This tool is designed to merge translation files (pot files) for internationalization (i18n) in JavaScript projects. It is particularly useful when working with multiple contributors or maintaining translations across various versions of your project.
 
@@ -17,13 +17,13 @@ This tool is designed to merge translation files (pot files) for internationaliz
 2. Clone the Repository: Clone this repository to your local machine using the following command:
 
 ```bash
-git clone https://github.com/erikyo/gettext-merge.git
+git clone https://github.com/erikyo/gettext-merger.git
 ```
 
 3. Install Dependencies: Navigate to the project directory and install the required dependencies.
 
 ```bash
-cd gettext-merge
+cd gettext-merger
 npm install
 ```
 
@@ -34,7 +34,7 @@ The tool can be used either as a library in your Node.js project or as a command
 ### Using as a Library
 
 ```typescript
-import { runMergePotWithArgs } from './gettext-merge';
+import { runMergePotWithArgs } from './gettext-merger';
 
 const inputFiles = ['file1.pot', 'file2.pot'];
 const mergedBlocks = await runMergePotWithArgs(inputFiles);
@@ -45,7 +45,7 @@ const mergedBlocks = await runMergePotWithArgs(inputFiles);
 ### Using as a Command-Line Tool
 
 ```bash
-npx gettext-merge -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot
+npx gettext-merger -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot
 ```
 
 ## Tests
