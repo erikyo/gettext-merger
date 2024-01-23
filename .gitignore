@@ -1,0 +1,8 @@
+# Project exclude paths
+/temp/
+/lib/
+/node_modules/
+/.idea/
+.run
+/tests/fixtures/
+
