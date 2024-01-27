@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { runMergePotWithArgs, writePo } from './gettext-fn'
+import { runMergePotWithArgs, writePo, mergePotFiles } from './gettext-fn'
 import { argv } from './cliArgs'
 import { extractPotHeader } from './utils'
 import yargs from 'yargs'
+import { readFileSync } from 'fs'
 
 /**
  * A function that performs gettext merging.
@@ -16,7 +17,10 @@ export default function gettextMerger() {
 	console.log('🔥 Merging ' + args.in.join(', ') + ' into ' + args.out)
 	runMergePotWithArgs(args.in)
 		.then((res) => {
-			const header = extractPotHeader(args.in[0] as string)
+			// write the header
+			// read the file
+			const potFile_0 = readFileSync(args.in[0], 'utf8')
+			const header = extractPotHeader(potFile_0 as string)
 			return writePo(header, res, args.out as string)
 		})
 		.then(() => {
@@ -34,3 +38,5 @@ export default function gettextMerger() {
 }
 
 gettextMerger()
+
+export { gettextMerger }

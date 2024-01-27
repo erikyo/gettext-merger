@@ -12,9 +12,7 @@ export function hashCompare(a: Block, b: Block): number {
 	return a.hash() - b.hash()
 }
 
-export function extractPotHeader(potFile: string): string {
-	// read the file
-	const potFileContent = readFileSync(potFile, 'utf8')
+export function extractPotHeader(potFileContent: string): string {
 	const header: string[] = []
 	let inHeader = true
 
