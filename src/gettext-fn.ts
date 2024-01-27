@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks'
 import { Block } from './block'
-import { hashCompare } from './utils'
+import { extractPotHeader, hashCompare } from './utils'
 
 /**
  * Asynchronously runs mergePotStrings with the provided input files and returns
@@ -126,4 +126,32 @@ export async function mergePotStrings(
 	const currentBlocks = Array.from(mergedSet)
 	// Merge current blocks with the next array of blocks
 	return mergeBlocks(...currentBlocks)
+}
+
+/**
+ * Merges the contents of multiple POT files into a single string.
+ *
+ * @param {string[]} fileContents - an array of file contents to be merged
+ * @param withHeader - indicates whether to include the header, the header is gathered from the first file
+ * @return {string} the merged file contents as a single string
+ */
+export function mergePotFiles(
+	fileContents: string[],
+	withHeader: boolean = false
+): string {
+	let response: string = ''
+
+	// maybe add the header
+	if (withHeader) {
+		response = extractPotHeader(fileContents[0] as string) + '\n\n\n'
+	}
+
+	// merge the files
+	const mergedSet = fileContents.map((content) => {
+		return new SetOfBlocks(parseFile(content)).blocks
+	})
+	response += mergeBlocks(...mergedSet).toStr()
+
+	// return the response
+	return response
 }
