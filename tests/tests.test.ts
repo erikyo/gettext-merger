@@ -84,7 +84,6 @@ describe('SetOfBlocks Class', () => {
 		const setOfBlocks = new SetOfBlocks([block1])
 
 		setOfBlocks.add(block2)
-		console.log(setOfBlocks)
 
 		expect(setOfBlocks.blocks).toEqual([block1, block2])
 	})

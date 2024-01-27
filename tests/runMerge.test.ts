@@ -2,12 +2,15 @@ import { runMergePotWithArgs } from '../lib/gettext-fn'
 
 describe('runMergePotWithArgs', () => {
 	it('should merge pot strings when provided with at least two input files', async () => {
-		const inputFiles = ['src/fixtures/file1.pot', 'src/fixtures/file2.pot']
+		const inputFiles = [
+			'tests/fixtures/file1.pot',
+			'tests/fixtures/file2.pot',
+		]
 		const result = await runMergePotWithArgs(inputFiles)
 	})
 
 	it('should log an error and exit if less than two input files are provided', async () => {
-		const inputFiles = ['file1.pot']
+		const inputFiles = ['tests/fixtures/file1.pot']
 		const consoleErrorSpy = jest
 			.spyOn(console, 'error')
 			.mockImplementation(() => {})
