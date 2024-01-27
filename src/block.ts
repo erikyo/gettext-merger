@@ -1,9 +1,24 @@
+export interface GetTextComment {
+	translator?: string
+	reference?: string[]
+	extracted?: string
+	flag?: string
+	previous?: string
+}
+
+export interface GetTextTranslation {
+	msgctxt?: string | undefined
+	msgid: string
+	msgid_plural?: any
+	msgstr: string[]
+	comments?: GetTextComment | undefined
+}
+
 /**
  * This class represents a single block of PO file.
  */
 export class Block {
-	translator: string[] // #. Translators:
-	references: string[] // #: plugin-name.php:12
+	comments: GetTextComment | undefined // #| Previous untranslated string
 	msgid: string // "%s example"
 	msgstr: string // ["% esempio", "%s esempi"],
 	msgid_plural: string // "%s examples"
@@ -15,8 +30,6 @@ export class Block {
 	 * @param {string[]} lines - The array of strings containing the message lines.
 	 */
 	constructor(lines: string[]) {
-		this.translator = this.parseForLine(lines, '#.', false) as string[]
-		this.references = this.parseForLine(lines, '#:', false) as string[]
 		this.msgid = this.parseForLine(lines, 'msgid', true) as string
 		this.msgid_plural = this.parseForLine(
 			lines,
@@ -25,6 +38,10 @@ export class Block {
 		) as string
 		this.msgstr = this.parseForLine(lines, 'msgstr', true) as string
 		this.msgctxt = this.parseForLine(lines, 'msgctxt', true) as string
+		this.comments = {
+			translator: this.parseForLine(lines, '#.', false) as string,
+			reference: this.parseForLine(lines, '#:', false) as string[],
+		}
 	}
 
 	/**
@@ -65,13 +82,12 @@ export class Block {
 	 * @return {string} The string representation of the object.
 	 */
 	toStr(): string {
-		const res: string[] = [
-			...this.translator,
-			...this.references,
+		const res = [
 			this.msgid,
 			this.msgid_plural,
 			this.msgstr,
 			this.msgctxt,
+			this.comments,
 		].filter(Boolean)
 
 		return res.join('\n')
@@ -93,27 +109,31 @@ export class Block {
 	}
 
 	/**
-	 * Generates a hash value for the concatenation of msgctxt, msgid, and msgid_plural.
+	 * Helper function to merge two strings into a unique array, excluding
+	 * undefined values.
 	 *
-	 * @return {number} the hash value generated
+	 * @param {string | undefined} current - The current string to merge.
+	 * @param {string | undefined} other - The other string to merge.
+	 * @return {string[]} The merged array with unique values.
+	 */
+	mergeUnique(current: string[] = [], other: string[] = []): string[] {
+		const mergeSet = new Set([...current, ...other])
+		return Array.from(mergeSet)
+	}
+
+	/**
+	 * Merges the other block with the current block.
 	 */
 	merge(other: Block) {
 		if (this.msgid === other.msgid) {
-			// Helper function to merge arrays uniquely and exclude null values
-			const mergeUnique = (
-				current: string[],
-				other: string[]
-			): string[] => {
-				return [
-					...new Set(
-						[...current, ...other].filter((item) => item !== null)
-					),
-				]
-			}
-
 			// Merge references and translator comments, excluding null values
-			this.translator = mergeUnique(this.translator, other.translator)
-			this.references = mergeUnique(this.references, other.references)
+			this.comments = {
+				...this.comments,
+				reference: this.mergeUnique(
+					this.comments?.reference,
+					other.comments?.reference
+				),
+			}
 		}
 	}
 }

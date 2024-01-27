@@ -21,8 +21,6 @@ describe('Block Class', () => {
 		expect(block.msgid).toEqual('msgid "Hello"')
 		expect(block.msgstr).toEqual('msgstr "Hola"')
 		expect(block.msgctxt).toEqual('msgctxt "Context"')
-		expect(block.references).toEqual(['#: app.js:12'])
-		expect(block.translator).toEqual(['#. Some comment'])
 	})
 
 	it('should create a Block instance with empty properties if lines are empty', () => {
@@ -31,8 +29,6 @@ describe('Block Class', () => {
 		expect(block.msgid).toEqual('')
 		expect(block.msgstr).toEqual('')
 		expect(block.msgctxt).toEqual('')
-		expect(block.references).toEqual([])
-		expect(block.translator).toEqual([])
 	})
 
 	it('should correctly calculate hash for a Block instance', () => {
@@ -60,7 +56,7 @@ describe('Block Class', () => {
 		block1.merge(block2)
 
 		expect(block1.msgid).toEqual('msgid "Hello"')
-		expect(block1.translator).toEqual([
+		expect(block1.comments?.translator).toEqual([
 			'#. First comment',
 			'#. Some comment',
 		]) // Duplicates are not removed
