@@ -37,10 +37,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/wp-blocks/isotolanguage.git"
+		"url": "https://github.com/erikyo/gettext-merger.git"
 	},
 	"bugs": {
-		"url": "https://github.com/wp-blocks/isotolanguage/issues"
+		"url": "https://github.com/erikyo/gettext-merger/issues"
 	},
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
