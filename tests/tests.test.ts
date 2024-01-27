@@ -1,7 +1,8 @@
 import * as fs from 'fs/promises'
-import { mergePotStrings, writePo } from '../src/gettext-fn'
+import { writePo } from '../src/gettext-fn'
 import { Block } from '../src/block'
 import { SetOfBlocks } from '../src/setOfBlocks'
+import { mergePotStrings } from '../src/merge'
 
 jest.mock('fs/promises')
 

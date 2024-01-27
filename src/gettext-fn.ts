@@ -1,7 +1,8 @@
 import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks'
 import { Block } from './block'
-import { extractPotHeader, hashCompare } from './utils'
+import { hashCompare } from './utils'
+import { mergePotStrings } from './merge'
 
 /**
  * Asynchronously runs mergePotStrings with the provided input files and returns
@@ -65,7 +66,7 @@ function readBlocks(lines: string[]): Block[] {
  * @param {string} data - the string to be parsed
  * @return {Block[]} an array of Block objects
  */
-function parseFile(data: string): Block[] {
+export function parseFile(data: string): Block[] {
 	const lines = data.split(/\r?\n/).reverse()
 	const blocks = readBlocks(lines)
 	return blocks.sort(hashCompare)
@@ -77,7 +78,7 @@ function parseFile(data: string): Block[] {
  * @param {Block[][]} arrays - arrays of blocks to merge
  * @return {SetOfBlocks} a set containing all the blocks from the input arrays
  */
-function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
+export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
 	const set = new SetOfBlocks()
 	for (const array of arrays) {
 		set.addArray(array)
@@ -104,54 +105,4 @@ export async function writePo(
 	// override by default
 	await fs.writeFile(output, consolidated, { encoding: 'utf8', flag: 'w' })
 	return consolidated
-}
-
-/**
- * Writes the consolidated content of blocks to a specified output file.
- *
- * @return {Promise<string>} the consolidated content as a string
- * @param filePaths
- */
-export async function mergePotStrings(
-	filePaths: string[]
-): Promise<SetOfBlocks> {
-	const mergedSet = await Promise.all(
-		filePaths.map(async (filePath) => {
-			const fileContent = await fs.readFile(filePath, 'utf8')
-			return new SetOfBlocks(parseFile(fileContent)).blocks
-		})
-	)
-
-	// Retrieve the current blocks from the mergedSet
-	const currentBlocks = Array.from(mergedSet)
-	// Merge current blocks with the next array of blocks
-	return mergeBlocks(...currentBlocks)
-}
-
-/**
- * Merges the contents of multiple POT files into a single string.
- *
- * @param {string[]} fileContents - an array of file contents to be merged
- * @param withHeader - indicates whether to include the header, the header is gathered from the first file
- * @return {string} the merged file contents as a single string
- */
-export function mergePotFiles(
-	fileContents: string[],
-	withHeader: boolean = false
-): string {
-	let response: string = ''
-
-	// maybe add the header
-	if (withHeader) {
-		response = extractPotHeader(fileContents[0] as string) + '\n\n\n'
-	}
-
-	// merge the files
-	const mergedSet = fileContents.map((content) => {
-		return new SetOfBlocks(parseFile(content)).blocks
-	})
-	response += mergeBlocks(...mergedSet).toStr()
-
-	// return the response
-	return response
 }

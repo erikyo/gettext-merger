@@ -1,4 +1,4 @@
-import { mergePotFiles } from '../src/gettext-fn'
+import { mergePotFiles } from '../src/merge'
 
 describe('mergePotFiles', () => {
 	it('merges multiple POT files with header', async () => {
