@@ -84,14 +84,17 @@ export class Block {
 	 * @return {string} The string representation of the object.
 	 */
 	toStr(): string {
+		const { comments, msgid, msgid_plural, msgstr, msgctxt } = this
 		const res = [
-			this.comments?.translator,
-			this.comments?.reference,
-			this.msgid,
-			this.msgid_plural,
-			this.msgstr,
-			this.msgctxt,
-		].filter(Boolean)
+			comments?.translator,
+			comments?.reference?.join('\n'),
+			msgid,
+			msgid_plural,
+			msgstr,
+			msgctxt,
+		]
+			.filter(Boolean)
+			.filter((i) => i?.length)
 
 		return res.join('\n')
 	}

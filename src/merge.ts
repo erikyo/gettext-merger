@@ -78,14 +78,14 @@ export function mergePotFiles(
 	}
 
 	// merge the files
-	// return the response
-	response += fileContents
-		.map((content) => {
-			return new SetOfBlocks(parseFile(content)).blocks
-		})
-		.toString()
+	const mergedSet = fileContents.map((content) => {
+		return new SetOfBlocks(parseFile(content)).blocks
+	})
 
-	return response
+	// Retrieve the current blocks from the mergedSet
+	const currentBlocks = Array.from(mergedSet)
+	// Merge current blocks with the next array of blocks
+	return mergeBlocks(...currentBlocks).toStr()
 }
 
 /**
