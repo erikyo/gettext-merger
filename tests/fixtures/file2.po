@@ -1,0 +1,113 @@
+# Copyright (C) 2024 WastedSpace
+# This file is distributed under the same license as the Useless Plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Useless Plugin 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wastedspace.com/support/plugin/useless\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-01-23T12:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WasteCLI 1.0.0-alpha-useless\n"
+"X-Domain: useless-plugin\n"
+
+#. Field in generic mapping
+#: includes/admin/importers/mappings/generic.php:26
+msgid "Menu order"
+msgstr "Campo: Ordine del Menu Useless"
+
+#. Field in advanced product data view
+#: includes/admin/meta-boxes/views/html-product-data-advanced.php:28
+msgid "Product Status"
+msgstr "Campo: Stato del Prodotto Useless"
+
+#. Field in products widget class
+#: includes/widgets/class-wc-widget-products.php:53
+msgid "Widget Title"
+msgstr "Campo: Titolo del Widget Useless"
+
+#. Chunk file for editing product page
+#: assets/client/admin/chunks/edit-product-page.js:1
+msgid "Save Changes"
+msgstr "Pulsante: Salva Cambiamenti Useless"
+
+#. Importer view for successful product import
+#: includes/admin/importers/views/html-csv-import-done.php:20
+msgid "%s product imported"
+msgid_plural "%s products imported"
+msgstr[0] "Useless: Un prodotto è stato importato"
+msgstr[1] "Useless: %s prodotti sono stati importati"
+
+#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: Un prodotto è stato aggiornato"
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"
+
+#. Field in generic mapping
+#: includes/admin/importers/mappings/generic.php:26
+msgid "Menu order"
+msgstr "Campo: Ordine del Menu Useless"
+
+#. Field in advanced product data view
+#: includes/admin/meta-boxes/views/html-product-data-advanced.php:28
+msgid "Product Status"
+msgstr "Campo: Stato del Prodotto Useless"
+
+#. Field in products widget class
+#: includes/widgets/class-wc-widget-products.php:53
+msgid "Widget Title"
+msgstr "Campo: Titolo del Widget Useless"
+
+#. Chunk file for editing product page
+#: assets/client/admin/chunks/edit-product-page.js:1
+msgid "Save Changes"
+msgstr "Pulsante: Salva Cambiamenti Useless"
+
+#. Importer view for successful product import
+#: includes/admin/importers/views/html-csv-import-done.php:20
+msgid "%s product imported"
+msgid_plural "%s products imported"
+msgstr[0] "Useless: Un prodotto è stato importato"
+msgstr[1] "Useless: %s prodotti sono stati importati"
+
+#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: Un prodotto è stato aggiornato"
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"
+
+#. Context: Toy category
+#: includes/admin/meta-boxes/views/html-product-data-category.php:10
+msgid "Age Group"
+msgstr "Campo: Gruppo di Età Useless"
+
+#. Context: Baby games category
+#: includes/admin/meta-boxes/views/html-product-data-category.php:15
+msgid "Baby-Friendly"
+msgstr "Campo: Baby-Friendly Useless"
+
+#. Context: Video games category
+#: includes/admin/meta-boxes/views/html-product-data-category.php:20
+msgid "Game Genre"
+msgstr "Campo: Genere del Gioco Useless"
+
+#. Context: Product description
+#: includes/admin/meta-boxes/views/html-product-data-description.php:5
+msgid "Product Description"
+msgstr "Campo: Descrizione del Prodotto Useless"
+
+#. Context: Featured products widget title
+#: includes/widgets/class-wc-widget-featured-products.php:40
+msgid "Featured Products"
+msgstr "Titolo del Widget: Prodotti in Evidenza Useless"
+
+#. Context: Cart checkout button
+#: templates/cart/cart.php:50
+msgid "Proceed to Checkout"
+msgstr "Pulsante: Procedi al Pagamento Useless"

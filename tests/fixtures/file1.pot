@@ -1,0 +1,101 @@
+# Copyright (C) 2024 FantasyTech
+# This file is distributed under the same license as the Unicorn Plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Unicorn Plugin 1.0.0\n"
+"Report-Msgid-Bugs-To: https://fantasytech.com/support/plugin/unicorn\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-01-23T12:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: FantasyCLI 1.0.0-alpha-unicorn\n"
+"X-Domain: unicorn-plugin\n"
+
+#. Plugin Name of the plugin
+msgid "Unicorn Plugin"
+msgstr ""
+
+#. Description of the plugin
+msgid "A magical plugin that brings unicorns to your website. Transform your content with enchanting features!"
+msgstr ""
+
+#. Author of the plugin
+msgid "FantasyTech"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:82
+#: admin/Unicorn_Admin_Core.php:83
+msgid "Unicorn Magic"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:99
+msgid "Unicorn Settings"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:131
+msgid "Unicorn magic updated with sparkles!"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:198
+#: core/Unicorn_Mystical.php:447
+msgid "Are you ready for magic?"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:224
+msgid "Realm of Unicorns"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:266
+msgid "Mystical Powers"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:329
+msgid "Unicorn Setup"
+msgstr ""
+
+#: admin/Unicorn_Admin_Core.php:378
+msgid "You've entered the realm of unicorns! Expect enchanting experiences."
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:45
+msgid "Enchanters only"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:69
+msgid "Magical Settings"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:77
+msgid "Summon unicorns automatically"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:85
+msgid "Mystical Unicorn Appearance"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:94
+msgid "Magical Spells before Summoning"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:103
+msgid "Automatic Unsummoning"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:112
+msgid "Horn Enchanting"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:120
+msgid "Enable anti-muggle checks"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:129
+msgid "Enable magical extra checks"
+msgstr ""
+
+#: admin/Unicorn_Admin_Customizations.php:138
+msgid "Append hidden spells on submit"
+msgstr ""
