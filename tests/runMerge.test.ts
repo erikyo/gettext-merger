@@ -1,4 +1,4 @@
-import { runMergePotWithArgs } from '../lib/gettext-fn'
+import { runMergePotWithArgs } from '../src/merge'
 
 describe('runMergePotWithArgs', () => {
 	it('should merge pot strings when provided with at least two input files', async () => {

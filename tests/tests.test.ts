@@ -47,19 +47,16 @@ describe('Block Class', () => {
 			'msgid "Hello"',
 			'#: app.js',
 			'msgctxt "Context"',
-			'#. First comment',
+			'#. Translator comment',
 		]
-		const lines2 = ['msgid "Hello"', '#. Some comment']
+		const lines2 = ['msgid "Hello"', '#. Translator comment']
 		const block1 = new Block(lines1)
 		const block2 = new Block(lines2)
 
 		block1.merge(block2)
 
 		expect(block1.msgid).toEqual('msgid "Hello"')
-		expect(block1.comments?.translator).toEqual([
-			'#. First comment',
-			'#. Some comment',
-		]) // Duplicates are not removed
+		expect(block1.comments?.translator).toEqual(['#. Translator comment']) // Duplicates are removed
 	})
 })
 
