@@ -1,12 +1,6 @@
 import { mergeComments } from './merge'
-
-export interface GetTextComment {
-	translator?: string
-	reference?: string[]
-	extracted?: string
-	flag?: string
-	previous?: string
-}
+import { GetTextComment } from './types'
+import { stripQuotes } from './utils'
 
 /**
  * This class represents a single block of PO file.
@@ -14,7 +8,7 @@ export interface GetTextComment {
 export class Block {
 	comments?: GetTextComment // #| Previous untranslated string
 	msgid: string // "%s example"
-	msgstr: string // ["% esempio", "%s esempi"],
+	msgstr: string[] // ["% esempio", "%s esempi"],
 	msgid_plural?: string // "%s examples"
 	msgctxt?: string // context
 
@@ -31,17 +25,20 @@ export class Block {
 			this.msgctxt = lines.msgctxt
 			this.comments = lines.comments
 		} else {
-			this.msgid = this.parseForLine(lines, 'msgid', true) as string
-			this.msgid_plural = this.parseForLine(
-				lines,
-				'msgid_plural',
-				true
-			) as string
-			this.msgstr = this.parseForLine(lines, 'msgstr', true) as string
-			this.msgctxt = this.parseForLine(lines, 'msgctxt', true) as string
+			this.msgid = this.parseForLine(lines, /^msgid/, true) as string
+			this.msgid_plural = this.parseForLine(lines, /^msgid_plural/, true) as string
+			this.msgstr = this.parseForLine(lines, /^msgstr/, false) as string[]
+			this.msgctxt = this.parseForLine(lines, /^msgctxt/, true) as string
 			this.comments = {
-				translator: this.parseForLine(lines, '#.', false) as string,
-				reference: this.parseForLine(lines, '#:', false) as string[],
+				extracted: this.parseForLine(lines, /^#\./, true) as string,
+				reference: this.parseForLine(lines, /^#:/, false) as string[],
+				flag: this.parseForLine(lines, /^#,/, true) as string,
+				previous: this.parseForLine(lines, /^#\|/, false) as string[],
+				translator: this.parseForLine(
+					lines,
+					/^#(?!\.|:|,|\|)\s?/, // all # that is not #. #: #, or #|
+					true
+				) as string,
 			}
 		}
 	}
@@ -57,17 +54,15 @@ export class Block {
 	 */
 	private parseForLine(
 		lines: string[],
-		id: string,
+		id: RegExp,
 		single: boolean = false
 	): string | string[] {
 		const res: string[] = []
+
 		let startParse = false
 
 		for (let i = 0; i < lines.length; i++) {
-			if (
-				lines[i].includes(id) ||
-				(startParse && lines[i].startsWith('"'))
-			) {
+			if (id.test(lines[i]) || (startParse && lines[i].startsWith('"'))) {
 				res.push(lines[i]) // Remove quotes at the start and end.
 				startParse = true
 			} else if (startParse) {
@@ -75,7 +70,7 @@ export class Block {
 			}
 		}
 
-		return single ? res.join('') : res // Join the array into a single string if single is true.
+		return single ? res.join('').replace(/""/g, '') : res // Join the array into a single string if single is true.
 	}
 
 	/**
@@ -87,11 +82,14 @@ export class Block {
 		const { comments, msgid, msgid_plural, msgstr, msgctxt } = this
 		const res = [
 			comments?.translator,
+			comments?.extracted,
 			comments?.reference?.join('\n'),
+			comments?.flag,
+			comments?.previous?.join('\n'),
+			msgctxt,
 			msgid,
 			msgid_plural,
-			msgstr,
-			msgctxt,
+			msgstr.join('\n'),
 		]
 			.filter(Boolean)
 			.filter((i) => i?.length)
@@ -119,6 +117,7 @@ export class Block {
 	 */
 	merge(other: Block) {
 		if (this.msgid === other.msgid) {
+			this.msgid_plural = this.msgid_plural ?? other.msgid_plural
 			this.msgctxt = this.msgctxt ?? other.msgctxt
 			this.msgstr = this.msgstr ?? other.msgstr
 			this.comments = mergeComments(this.comments, other.comments)
