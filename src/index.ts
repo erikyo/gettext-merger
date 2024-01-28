@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import { runMergePotWithArgs, writePo } from './gettext-fn'
+import { writePo } from './gettext-fn'
 import { argv } from './cliArgs'
 import { extractPotHeader } from './utils'
 import yargs from 'yargs'
 import { readFileSync } from 'fs'
-import { mergePotFiles } from './merge'
+import { runMergePotWithArgs } from './merge'
 
 /**
  * A function that performs gettext merging.

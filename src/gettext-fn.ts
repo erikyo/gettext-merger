@@ -2,26 +2,6 @@ import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks'
 import { Block } from './block'
 import { hashCompare } from './utils'
-import { mergePotStrings } from './merge'
-
-/**
- * Asynchronously runs mergePotStrings with the provided input files and returns
- * the resulting set of blocks.
- *
- * @param {string[]} inputFiles - An array of input file paths to be merged
- * @return {Promise<SetOfBlocks>} A Promise resolving to the set of blocks
- */
-export async function runMergePotWithArgs(
-	inputFiles: string[]
-): Promise<SetOfBlocks> {
-	// Ensure we have exactly two input files
-	if (inputFiles.length <= 1) {
-		console.error('You must provide at least two input files.')
-		process.exit(1)
-	}
-
-	return await mergePotStrings(inputFiles)
-}
 
 /**
  * Reads a block of lines from the input array and returns the block along with the remaining lines.
@@ -70,20 +50,6 @@ export function parseFile(data: string): Block[] {
 	const lines = data.split(/\r?\n/).reverse()
 	const blocks = readBlocks(lines)
 	return blocks.sort(hashCompare)
-}
-
-/**
- * Merges multiple arrays of blocks into a single set of blocks.
- *
- * @param {Block[][]} arrays - arrays of blocks to merge
- * @return {SetOfBlocks} a set containing all the blocks from the input arrays
- */
-export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
-	const set = new SetOfBlocks()
-	for (const array of arrays) {
-		set.addArray(array)
-	}
-	return set
 }
 
 /**
