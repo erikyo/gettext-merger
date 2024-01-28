@@ -12,6 +12,10 @@ export function hashCompare(a: Block, b: Block): number {
 	return a.hash() - b.hash()
 }
 
+export function stripQuotes(str: string): string {
+	return str.replace(/^['"]+|['"]+$/g, '')
+}
+
 export function extractPotHeader(potFileContent: string): string {
 	const header: string[] = []
 	let inHeader = true

@@ -2,7 +2,8 @@ import { SetOfBlocks } from './setOfBlocks'
 import fs from 'fs/promises'
 import { extractPotHeader } from './utils'
 import { parseFile } from './gettext-fn'
-import { Block, GetTextComment } from './block'
+import { Block } from './block'
+import { GetTextComment } from './types'
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
@@ -135,6 +136,6 @@ export function mergeComments(
 		reference: mergeUnique(current?.reference, other?.reference),
 		extracted: current?.extracted ?? other?.extracted,
 		flag: current?.flag ?? other?.flag,
-		previous: current?.previous ?? other?.previous,
+		previous: mergeUnique(current?.previous, other?.previous),
 	}
 }
