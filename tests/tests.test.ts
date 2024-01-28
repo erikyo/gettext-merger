@@ -19,7 +19,7 @@ describe('Block Class', () => {
 		const block = new Block(lines)
 
 		expect(block.msgid).toEqual('msgid "Hello"')
-		expect(block.msgstr).toEqual('msgstr "Hola"')
+		expect(block.msgstr).toEqual(['msgstr "Hola"'])
 		expect(block.msgctxt).toEqual('msgctxt "Context"')
 	})
 
@@ -27,7 +27,7 @@ describe('Block Class', () => {
 		const block = new Block([])
 
 		expect(block.msgid).toEqual('')
-		expect(block.msgstr).toEqual('')
+		expect(block.msgstr).toEqual([])
 		expect(block.msgctxt).toEqual('')
 	})
 
@@ -45,7 +45,7 @@ describe('Block Class', () => {
 	it('should merge two Block instances correctly', () => {
 		const lines1 = [
 			'msgid "Hello"',
-			'#: app.js',
+			'#: src/app.js:12',
 			'msgctxt "Context"',
 			'#. Translator comment',
 		]
@@ -56,7 +56,7 @@ describe('Block Class', () => {
 		block1.merge(block2)
 
 		expect(block1.msgid).toEqual('msgid "Hello"')
-		expect(block1.comments?.translator).toEqual(['#. Translator comment']) // Duplicates are removed
+		expect(block1.comments?.extracted).toEqual('#. Translator comment') // Duplicates are removed
 	})
 })
 
@@ -128,12 +128,12 @@ describe('Merge Pot Strings Function', () => {
 		const potString2 =
 			'msgid "Hello"\nmsgstr "Bonjour"\n\nmsgid "Thank you"\nmsgstr "Merci"\n\n'
 
-		;(
-			fs.readFile as jest.MockedFunction<typeof fs.readFile>
-		).mockResolvedValueOnce(potString1)
-		;(
-			fs.readFile as jest.MockedFunction<typeof fs.readFile>
-		).mockResolvedValueOnce(potString2)
+		;(fs.readFile as jest.MockedFunction<typeof fs.readFile>).mockResolvedValueOnce(
+			potString1
+		)
+		;(fs.readFile as jest.MockedFunction<typeof fs.readFile>).mockResolvedValueOnce(
+			potString2
+		)
 
 		const result = await mergePotStrings([
 			'tests/fixtures/file1.pot',
@@ -157,9 +157,7 @@ msgstr "Adiós"
 
 describe('Write Po Function', () => {
 	it('should write consolidated blocks to a file', async () => {
-		const blocks = new SetOfBlocks([
-			new Block(['msgid "Hello"', 'msgstr "Hola"']),
-		])
+		const blocks = new SetOfBlocks([new Block(['msgid "Hello"', 'msgstr "Hola"'])])
 		const outputFile = 'output.pot'
 
 		const writeFileSpy = jest.spyOn(fs, 'writeFile')

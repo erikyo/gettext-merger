@@ -12,6 +12,12 @@ msgstr ""
 msgid "FantasyTech"
 msgstr ""
 
+#: src/FeaturesController.php:1083
+msgid ""
+"? This plugin is incompatible with the enabled WooCommerce features "
+"'%1//$s' and '%2//$s', it shouldn't be activated."
+msgstr ""
+
 #: admin/Unicorn_Admin_Core.php:82
 #: admin/Unicorn_Admin_Core.php:86
 msgid "Unicorn Magic"
@@ -28,6 +34,10 @@ msgstr ""`
 
 		const expected = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
+msgstr ""
+
+#: src/FeaturesController.php:1083
+msgid "? This plugin is incompatible with the enabled WooCommerce features '%1//$s' and '%2//$s', it shouldn't be activated."
 msgstr ""
 
 #: admin/Unicorn_Admin_Core.php:82
@@ -82,7 +92,7 @@ describe('mergePotFiles', () => {
 		const block1 = new Block([])
 		block1.msgid = 'asd'
 		block1.comments = {
-			translator: '#. Translator comment',
+			extracted: '#. Translator comment',
 			reference: ['#: app.js'],
 		}
 		const blockGroup1 = new SetOfBlocks([block1])
@@ -90,7 +100,7 @@ describe('mergePotFiles', () => {
 		const block2 = new Block({
 			msgid: 'asd',
 			comments: {
-				translator: '#. Translator comment',
+				extracted: '#. Translator comment',
 				reference: ['#: app.js'],
 			},
 		} as Block)
@@ -99,7 +109,7 @@ describe('mergePotFiles', () => {
 		const blocke = new Block([])
 		blocke.msgid = 'asd'
 		blocke.comments = {
-			translator: '#. Translator comment',
+			extracted: '#. Translator comment',
 			reference: ['#: app.js'],
 		}
 		const result = mergePotObject([blockGroup1, blockGroup2]).blocks
