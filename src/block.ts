@@ -1,3 +1,5 @@
+import { mergeComments } from './merge'
+
 export interface GetTextComment {
 	translator?: string
 	reference?: string[]
@@ -6,41 +8,41 @@ export interface GetTextComment {
 	previous?: string
 }
 
-export interface GetTextTranslation {
-	msgctxt?: string | undefined
-	msgid: string
-	msgid_plural?: any
-	msgstr: string[]
-	comments?: GetTextComment | undefined
-}
-
 /**
  * This class represents a single block of PO file.
  */
 export class Block {
-	comments: GetTextComment | undefined // #| Previous untranslated string
+	comments?: GetTextComment // #| Previous untranslated string
 	msgid: string // "%s example"
 	msgstr: string // ["% esempio", "%s esempi"],
-	msgid_plural: string // "%s examples"
-	msgctxt: string // context
+	msgid_plural?: string // "%s examples"
+	msgctxt?: string // context
 
 	/**
 	 * Constructor for initializing the message properties from the given lines.
 	 *
 	 * @param {string[]} lines - The array of strings containing the message lines.
 	 */
-	constructor(lines: string[]) {
-		this.msgid = this.parseForLine(lines, 'msgid', true) as string
-		this.msgid_plural = this.parseForLine(
-			lines,
-			'msgid_plural',
-			true
-		) as string
-		this.msgstr = this.parseForLine(lines, 'msgstr', true) as string
-		this.msgctxt = this.parseForLine(lines, 'msgctxt', true) as string
-		this.comments = {
-			translator: this.parseForLine(lines, '#.', false) as string,
-			reference: this.parseForLine(lines, '#:', false) as string[],
+	constructor(lines: string[] | Block) {
+		if (lines instanceof Block) {
+			this.msgid = lines.msgid
+			this.msgid_plural = lines.msgid_plural
+			this.msgstr = lines.msgstr
+			this.msgctxt = lines.msgctxt
+			this.comments = lines.comments
+		} else {
+			this.msgid = this.parseForLine(lines, 'msgid', true) as string
+			this.msgid_plural = this.parseForLine(
+				lines,
+				'msgid_plural',
+				true
+			) as string
+			this.msgstr = this.parseForLine(lines, 'msgstr', true) as string
+			this.msgctxt = this.parseForLine(lines, 'msgctxt', true) as string
+			this.comments = {
+				translator: this.parseForLine(lines, '#.', false) as string,
+				reference: this.parseForLine(lines, '#:', false) as string[],
+			}
 		}
 	}
 
@@ -83,11 +85,12 @@ export class Block {
 	 */
 	toStr(): string {
 		const res = [
+			this.comments?.translator,
+			this.comments?.reference,
 			this.msgid,
 			this.msgid_plural,
 			this.msgstr,
 			this.msgctxt,
-			this.comments,
 		].filter(Boolean)
 
 		return res.join('\n')
@@ -109,31 +112,13 @@ export class Block {
 	}
 
 	/**
-	 * Helper function to merge two strings into a unique array, excluding
-	 * undefined values.
-	 *
-	 * @param {string | undefined} current - The current string to merge.
-	 * @param {string | undefined} other - The other string to merge.
-	 * @return {string[]} The merged array with unique values.
-	 */
-	mergeUnique(current: string[] = [], other: string[] = []): string[] {
-		const mergeSet = new Set([...current, ...other])
-		return Array.from(mergeSet)
-	}
-
-	/**
 	 * Merges the other block with the current block.
 	 */
 	merge(other: Block) {
 		if (this.msgid === other.msgid) {
-			// Merge references and translator comments, excluding null values
-			this.comments = {
-				...this.comments,
-				reference: this.mergeUnique(
-					this.comments?.reference,
-					other.comments?.reference
-				),
-			}
+			this.msgctxt = this.msgctxt ?? other.msgctxt
+			this.msgstr = this.msgstr ?? other.msgstr
+			this.comments = mergeComments(this.comments, other.comments)
 		}
 	}
 }
