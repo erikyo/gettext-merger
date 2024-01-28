@@ -31,21 +31,58 @@ npm install
 
 The tool can be used either as a library in your Node.js project or as a command-line tool.
 
-### Using as a Library
-
-```typescript
-import { runMergePotWithArgs } from './gettext-merger';
-
-const inputFiles = ['file1.pot', 'file2.pot'];
-const mergedBlocks = await runMergePotWithArgs(inputFiles);
-
-// Use mergedBlocks as needed
-```
 
 ### Using as a Command-Line Tool
 
 ```bash
 npx gettext-merger -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot
+```
+
+### Using as a Library
+
+#### Merging Pot Strings
+
+```typescript
+import { mergePotStrings } from './gettext-merger';
+
+const filePaths = ['file1.pot', 'file2.pot'];
+const mergedSet = await mergePotStrings(filePaths);
+
+// Use mergedSet as needed
+```
+
+#### Merging Pot Files
+
+```typescript
+import { mergePotFiles } from './gettext-merger';
+
+const fileContents = ['content1', 'content2'];
+const mergedContent = mergePotFiles(fileContents, true);
+
+// Use mergedContent as needed
+```
+
+#### Merging Pot Objects
+
+```typescript
+import { mergePotObject } from './gettext-merger';
+
+const setOfBlocksArray = /* Array of SetOfBlocks objects */;
+const mergedSet = mergePotObject(setOfBlocksArray);
+
+// Use mergedSet as needed
+```
+
+#### Merging Comments
+
+```typescript
+import { mergeComments } from './gettext-merger';
+
+const comment1 = /* GetTextComment object 1 */;
+const comment2 = /* GetTextComment object 2 */;
+const mergedComment = mergeComments(comment1, comment2);
+
+// Use mergedComment as needed
 ```
 
 ## Tests
