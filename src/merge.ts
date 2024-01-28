@@ -26,9 +26,7 @@ export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
  * @param {string[]} inputFiles - An array of input file paths to be merged
  * @return {Promise<SetOfBlocks>} A Promise resolving to the set of blocks
  */
-export async function runMergePotWithArgs(
-	inputFiles: string[]
-): Promise<SetOfBlocks> {
+export async function runMergePotWithArgs(inputFiles: string[]): Promise<SetOfBlocks> {
 	// Ensure we have exactly two input files
 	if (inputFiles.length <= 1) {
 		console.error('You must provide at least two input files.')
@@ -44,9 +42,7 @@ export async function runMergePotWithArgs(
  * @return {Promise<string>} the consolidated content as a string
  * @param filePaths
  */
-export async function mergePotStrings(
-	filePaths: string[]
-): Promise<SetOfBlocks> {
+export async function mergePotStrings(filePaths: string[]): Promise<SetOfBlocks> {
 	const mergedSet = await Promise.all(
 		filePaths.map(async (filePath) => {
 			const fileContent = await fs.readFile(filePath, 'utf8')

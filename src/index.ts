@@ -26,9 +26,7 @@ export default function gettextMerger() {
 		})
 		.then(() => {
 			console.log(
-				'🚀 Done in ' +
-					(new Date().getTime() - startTime.getTime()) / 1000 +
-					's'
+				'🚀 Done in ' + (new Date().getTime() - startTime.getTime()) / 1000 + 's'
 			)
 			process.exit(0)
 		})

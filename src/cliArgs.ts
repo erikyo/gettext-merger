@@ -1,5 +1,5 @@
-import yargs from "yargs";
-import {hideBin} from "yargs/helpers";
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 
 export const argv = yargs(hideBin(process.argv))
 	.option('in', {
@@ -9,9 +9,9 @@ export const argv = yargs(hideBin(process.argv))
 		demandOption: true,
 		coerce: (files: string[]) => {
 			if (files.length <= 1) {
-				throw new Error('Exactly two or more input files are required.');
+				throw new Error('Exactly two or more input files are required.')
 			}
-			return files;
+			return files
 		},
 	})
 	.option('out', {
@@ -20,4 +20,4 @@ export const argv = yargs(hideBin(process.argv))
 		type: 'string',
 		demandOption: true,
 	})
-	.parse();
+	.parse()
