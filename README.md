@@ -43,10 +43,10 @@ npx gettext-merger -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests
 #### Merging Pot Strings
 
 ```typescript
-import { mergePotStrings } from './gettext-merger';
+import { mergePotFile } from './gettext-merger';
 
 const filePaths = ['file1.pot', 'file2.pot'];
-const mergedSet = await mergePotStrings(filePaths);
+const mergedSet = await mergePotFile(filePaths);
 
 // Use mergedSet as needed
 ```
@@ -54,10 +54,10 @@ const mergedSet = await mergePotStrings(filePaths);
 #### Merging Pot Files
 
 ```typescript
-import { mergePotFiles } from './gettext-merger';
+import { mergePotFileContent } from './gettext-merger';
 
 const fileContents = ['content1', 'content2'];
-const mergedContent = mergePotFiles(fileContents, true);
+const mergedContent = mergePotFileContent(fileContents, true);
 
 // Use mergedContent as needed
 ```
