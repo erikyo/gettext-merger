@@ -1,4 +1,4 @@
-import { mergeBlocks, mergePotFiles, mergePotObject } from '../src/merge'
+import { mergeBlocks, mergePotFileContent, mergePotObject } from '../src/merge'
 import { Block } from '../src/block'
 import { SetOfBlocks } from '../src/setOfBlocks'
 
@@ -32,12 +32,14 @@ msgstr ""
 msgid "Unicorn Magic"
 msgstr ""`
 
-		const expected = `#. Plugin Name of the plugin
-msgid "Unicorn Plugin"
+		const expected = `#: src/FeaturesController.php:1083
+msgid ""
+"? This plugin is incompatible with the enabled WooCommerce features "
+"'%1//$s' and '%2//$s', it shouldn't be activated."
 msgstr ""
 
-#: src/FeaturesController.php:1083
-msgid "? This plugin is incompatible with the enabled WooCommerce features '%1//$s' and '%2//$s', it shouldn't be activated."
+#. Plugin Name of the plugin
+msgid "Unicorn Plugin"
 msgstr ""
 
 #: admin/Unicorn_Admin_Core.php:82
@@ -51,22 +53,22 @@ msgid "FantasyTech"
 msgstr ""
 
 `
-		const result = mergePotFiles([str1, str2], true)
+		const result = mergePotFileContent([str1, str2])
 
 		expect(result).toBe(expected)
 	})
 
 	it('should merge blocks of strings', async () => {
-		const str1 = `#. Plugin Name of the plugin
-msgid "Unicorn Plugin"
+		const str1 = `msgid "Unicorn Plugin"
 msgstr ""
 
-#: admin/Unicorn_Admin_Core.php:82
-#: admin/Unicorn_Admin_Core.php:83
 msgid "Unicorn Magic"
 msgstr ""`
 
-		const str2 = `#: admin/page.php:23
+		const str2 = `#. Plugin Name of the plugin
+msgid "Unicorn Plugin"
+msgstr ""
+
 msgid "Unicorn Magic"
 msgstr ""`
 
@@ -74,14 +76,11 @@ msgstr ""`
 msgid "Unicorn Plugin"
 msgstr ""
 
-#: admin/Unicorn_Admin_Core.php:82
-#: admin/Unicorn_Admin_Core.php:83
-#: admin/page.php:23
 msgid "Unicorn Magic"
 msgstr ""
 
 `
-		const result = mergePotFiles([str1, str2], true)
+		const result = mergePotFileContent([str1, str2])
 
 		expect(result).toBe(expected)
 	})
