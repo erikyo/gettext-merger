@@ -16,32 +16,36 @@ export function stripQuotes(str: string): string {
 	return str.replace(/^['"]+|['"]+$/g, '')
 }
 
-export function extractPotHeader(potFileContent: string): string {
-	const header: string[] = []
-	let inHeader = true
+export function splitMultiline(
+	str: string | undefined,
+	maxLength: number = 80
+): string | undefined {
+	if (!str) {
+		return undefined
+	} else if (str.length <= maxLength || str.includes('\n')) {
+		return str
+	}
 
-	// Split the content into lines
-	const lines = potFileContent.split('\n')
+	const [__, type = '', string] = /^(\S+[\W])\s?(.*)$/.exec(str) as RegExpExecArray
 
-	// Iterate through lines
-	for (const line of lines) {
-		const trimmedLine = line.trim()
+	const words = stripQuotes(string).split(' ')
+	let result = str.length > maxLength ? type + '""\n' : type // Adjusted for msgid format
+	let currentLine = ''
 
-		if (inHeader) {
-			// Check for lines indicating the end of the header
-			if (trimmedLine === '') {
-				inHeader = false
-			} else {
-				// Collect lines in the header
-				header.push(line)
-			}
+	for (let i = 0; i < words.length; i++) {
+		// Check if adding the next word exceeds the length limit
+		if ((currentLine + ' ' + words[i]).length + 1 > maxLength) {
+			result += `"${currentLine.trim()}"\n`
+			currentLine = words[i] // Start a new line with the current word
 		} else {
-			// Break if the first non-empty line after the header is found
-			if (trimmedLine !== '') {
-				break
-			}
+			currentLine += ' ' + words[i] // Add the current word to the line
 		}
 	}
 
-	return header.join('\n')
+	// Add the last line if there are any words left.
+	if (currentLine) {
+		result += `"${currentLine.trim()}"`
+	}
+
+	return result
 }
