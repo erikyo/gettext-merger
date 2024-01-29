@@ -27,9 +27,9 @@ describe('Block Class', () => {
 	it('should create a Block instance with empty properties if lines are empty', () => {
 		const block = new Block([])
 
-		expect(block.msgid).toEqual('')
-		expect(block.msgstr).toEqual([])
-		expect(block.msgctxt).toEqual('')
+		expect(block.msgid).toEqual(undefined)
+		expect(block.msgstr).toEqual(undefined)
+		expect(block.msgctxt).toEqual(undefined)
 	})
 
 	it('should correctly calculate hash for a Block instance', () => {
@@ -38,7 +38,7 @@ describe('Block Class', () => {
 		const hash = block.hash()
 
 		// The expected hash can be calculated manually based on the provided hash function
-		const expectedHash = 104656459
+		const expectedHash = 1870341923
 
 		expect(hash).toEqual(expectedHash)
 	})
@@ -57,7 +57,7 @@ describe('Block Class', () => {
 		block1.merge(block2)
 
 		expect(block1.msgid).toEqual('msgid "Hello"')
-		expect(block1.comments?.extracted).toEqual('#. Translator comment') // Duplicates are removed
+		expect(block1.comments?.extracted).toEqual(['#. Translator comment']) // Duplicates are removed
 	})
 })
 
@@ -124,22 +124,18 @@ describe('SetOfBlocks Class', () => {
 
 describe('Merge Pot Strings Function', () => {
 	it('should merge two pot strings correctly', async () => {
-		const potString1 = `msgid ""
+		const potString1 = `# Copyright (C) 2024 FantasyTech
+# This file is distributed under the same license as the Unicorn Plugin.
+msgid ""
 msgstr ""
-"project-id-version: asd\n"
-"Language: English\n"
+"Project-Id-Version: Project Name\n"
 
 msgid "Hello"
 msgstr "Hola"
 
 msgid "Goodbye"
 msgstr "Adiós"`
-		const potString2 = `msgid ""
-msgstr ""
-"project-id-version: asd\n"
-"Language: English\n"
-
-msgid "Hello"
+		const potString2 = `msgid "Hello"
 msgstr "Bonjour"
 
 msgid "Thank you"
@@ -156,6 +152,12 @@ msgstr "Merci"`
 			'tests/fixtures/file1.pot',
 			'tests/fixtures/file2.pot',
 		])
+
+		expect(result[0][0].toStr()).toEqual(`# Copyright (C) 2024 FantasyTech
+# This file is distributed under the same license as the Unicorn Plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Name\n"`)
 
 		expect(result[1].toStr()).toEqual(
 			`msgid "Hello"

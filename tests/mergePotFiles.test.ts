@@ -84,6 +84,46 @@ msgstr ""
 
 		expect(result).toBe(expected)
 	})
+
+	it('should merge blocks of strings msgid_plural and multiple msgstr', async () => {
+		const str1 = `msgid "Unicorn Plugin"
+msgstr ""
+
+#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: Un prodotto è stato aggiornato"
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"
+
+msgid "Unicorn Magic"
+msgstr ""`
+
+		const str2 = `#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: Un prodotto è stato aggiornato"
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"`
+
+		const expected = `msgid "Unicorn Plugin"
+msgstr ""
+
+msgid "Unicorn Magic"
+msgstr ""
+
+#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: Un prodotto è stato aggiornato"
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"
+
+`
+		const result = mergePotFileContent([str1, str2])
+
+		expect(result).toBe(expected)
+	})
 })
 
 describe('mergePotFiles', () => {
@@ -91,7 +131,7 @@ describe('mergePotFiles', () => {
 		const block1 = new Block([])
 		block1.msgid = 'asd'
 		block1.comments = {
-			extracted: '#. Translator comment',
+			extracted: ['#. Translator comment'],
 			reference: ['#: app.js'],
 		}
 		const blockGroup1 = new SetOfBlocks([block1])
@@ -99,7 +139,7 @@ describe('mergePotFiles', () => {
 		const block2 = new Block({
 			msgid: 'asd',
 			comments: {
-				extracted: '#. Translator comment',
+				extracted: ['#. Translator comment'],
 				reference: ['#: app.js'],
 			},
 		} as Block)
@@ -108,7 +148,7 @@ describe('mergePotFiles', () => {
 		const blocke = new Block([])
 		blocke.msgid = 'asd'
 		blocke.comments = {
-			extracted: '#. Translator comment',
+			extracted: ['#. Translator comment'],
 			reference: ['#: app.js'],
 		}
 		const result = mergePotObject([blockGroup1, blockGroup2]).blocks
