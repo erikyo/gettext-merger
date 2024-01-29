@@ -1,7 +1,6 @@
-import { SetOfBlocks } from './setOfBlocks'
 import fs from 'fs/promises'
-import { extractPotHeader } from './utils'
-import { parseFile } from './gettext-fn'
+import { SetOfBlocks } from './setOfBlocks'
+import { extractPotHeader, parseFile } from './gettext-fn'
 import { Block } from './block'
 import { GetTextComment } from './types'
 
@@ -20,20 +19,20 @@ export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
 }
 
 /**
- * Asynchronously runs mergePotStrings with the provided input files and returns
+ * Asynchronously runs mergePotFile with the provided input files and returns
  * the resulting set of blocks.
  *
  * @param {string[]} inputFiles - An array of input file paths to be merged
  * @return {Promise<SetOfBlocks>} A Promise resolving to the set of blocks
  */
-export async function runMergePotWithArgs(inputFiles: string[]): Promise<SetOfBlocks> {
+export async function runMergePot(inputFiles: string[]): Promise<[Block[], SetOfBlocks]> {
 	// Ensure we have exactly two input files
 	if (inputFiles.length <= 1) {
 		console.error('You must provide at least two input files.')
 		process.exit(1)
 	}
 
-	return await mergePotStrings(inputFiles)
+	return await mergePotFile(inputFiles)
 }
 
 /**
@@ -42,37 +41,34 @@ export async function runMergePotWithArgs(inputFiles: string[]): Promise<SetOfBl
  * @return {Promise<string>} the consolidated content as a string
  * @param filePaths
  */
-export async function mergePotStrings(filePaths: string[]): Promise<SetOfBlocks> {
+export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOfBlocks]> {
+	const headers: Block[] = []
 	const mergedSet = await Promise.all(
 		filePaths.map(async (filePath) => {
 			const fileContent = await fs.readFile(filePath, 'utf8')
-			return new SetOfBlocks(parseFile(fileContent)).blocks
+			const [header, content] = extractPotHeader(fileContent)
+			// Store the header in the header array
+			if (header) headers.push(header)
+			// Parse the content and return the SetOfBlocks
+			return new SetOfBlocks(parseFile(content)).blocks
 		})
 	)
 
 	// Retrieve the current blocks from the mergedSet
 	const currentBlocks = Array.from(mergedSet)
+
 	// Merge current blocks with the next array of blocks
-	return mergeBlocks(...currentBlocks)
+	return [Array.from(headers), mergeBlocks(...currentBlocks)]
 }
 
 /**
  * Merges the contents of multiple POT files into a single string.
  *
  * @param {string[]} fileContents - an array of file contents to be merged
- * @param withHeader - indicates whether to include the header, the header is gathered from the first file
  * @return {string} the merged file contents as a single string
  */
-export function mergePotFiles(
-	fileContents: string[],
-	withHeader: boolean = false
-): string {
+export function mergePotFileContent(fileContents: string[]): string {
 	let response: string = ''
-
-	// maybe add the header
-	if (withHeader) {
-		response = extractPotHeader(fileContents[0] as string) + '\n\n\n'
-	}
 
 	// merge the files
 	const mergedSet = fileContents.map((content) => {
@@ -82,7 +78,9 @@ export function mergePotFiles(
 	// Retrieve the current blocks from the mergedSet
 	const currentBlocks = Array.from(mergedSet)
 	// Merge current blocks with the next array of blocks
-	return mergeBlocks(...currentBlocks).toStr()
+	response += mergeBlocks(...currentBlocks).toStr()
+
+	return response
 }
 
 /**
@@ -128,10 +126,10 @@ export function mergeComments(
 	other: GetTextComment | undefined
 ): GetTextComment {
 	return {
-		translator: current?.translator ?? other?.translator,
+		translator: mergeUnique(current?.translator, other?.translator),
 		reference: mergeUnique(current?.reference, other?.reference),
-		extracted: current?.extracted ?? other?.extracted,
-		flag: current?.flag ?? other?.flag,
+		extracted: current?.extracted?.length ? current?.extracted : other?.extracted,
+		flag: current?.flag?.length ? current?.flag : other?.flag,
 		previous: mergeUnique(current?.previous, other?.previous),
 	}
 }
