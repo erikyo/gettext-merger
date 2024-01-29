@@ -1,6 +1,18 @@
 import { mergeComments } from './merge'
 import { GetTextComment } from './types'
-import { stripQuotes } from './utils'
+import { splitMultiline, stripQuotes } from './utils'
+
+export const matcher = {
+	msgid: /^(msgid)(.*)/,
+	msgstr: /^(msgstr)(.*)/,
+	msgctxt: /^(msgctxt)(.*)/,
+	msgid_plural: /^(msgid_plural)(.*)/,
+	extracted: /^(#\.)(.*)/,
+	reference: /^(#:)(.*)/,
+	flag: /^(#,)(.*)/,
+	previous: /^(#\|)(.*)/,
+	translator: /^(#(?![.:,|]))(.*)/, // all # that is not #. #: #, or #|
+}
 
 /**
  * This class represents a single block of PO file.
@@ -25,20 +37,16 @@ export class Block {
 			this.msgctxt = lines.msgctxt
 			this.comments = lines.comments
 		} else {
-			this.msgid = this.parseForLine(lines, /^msgid/, true) as string
-			this.msgid_plural = this.parseForLine(lines, /^msgid_plural/, true) as string
-			this.msgstr = this.parseForLine(lines, /^msgstr/, false) as string[]
-			this.msgctxt = this.parseForLine(lines, /^msgctxt/, true) as string
+			this.msgid = this.parseForLine(lines, 'msgid')
+			this.msgid_plural = this.parseForLine(lines, 'msgid_plural')
+			this.msgstr = this.parseForLines(lines, 'msgstr')
+			this.msgctxt = this.parseForLine(lines, 'msgctxt')
 			this.comments = {
-				extracted: this.parseForLine(lines, /^#\./, true) as string,
-				reference: this.parseForLine(lines, /^#:/, false) as string[],
-				flag: this.parseForLine(lines, /^#,/, true) as string,
-				previous: this.parseForLine(lines, /^#\|/, false) as string[],
-				translator: this.parseForLine(
-					lines,
-					/^#(?!\.|:|,|\|)\s?/, // all # that is not #. #: #, or #|
-					true
-				) as string,
+				extracted: this.parseForLine(lines, 'extracted'),
+				reference: this.parseForLines(lines, 'reference'),
+				flag: this.parseForLine(lines, 'flag'),
+				previous: this.parseForLines(lines, 'previous'),
+				translator: this.parseForLines(lines, 'translator'),
 			}
 		}
 	}
@@ -49,28 +57,37 @@ export class Block {
 	 *
 	 * @param {string[]} lines - the array of strings to parse
 	 * @param {string} id - the id to search for
-	 * @param {boolean} single - indicates whether to return a single string or an array
-	 * @return {string|string[]} the matching string or array of strings
+	 * @return {string} the matching string or array of strings
 	 */
-	private parseForLine(
-		lines: string[],
-		id: RegExp,
-		single: boolean = false
-	): string | string[] {
+	private parseForLine(lines: string[], id: string): string {
+		return this.parseForLines(lines, id)?.join('\n')
+	}
+
+	private parseForLines(lines: string[], id: string): string[] {
+		if (!lines.length) return []
+
 		const res: string[] = []
 
 		let startParse = false
 
 		for (let i = 0; i < lines.length; i++) {
-			if (id.test(lines[i]) || (startParse && lines[i].startsWith('"'))) {
-				res.push(lines[i]) // Remove quotes at the start and end.
-				startParse = true
+			const regexResult = matcher[id as keyof typeof matcher].exec(
+				lines[i]
+			) as RegExpExecArray
+			if (regexResult?.length && regexResult[2]) {
+				if (regexResult[2]) {
+					res.push(regexResult[1] + ' ' + regexResult[2].trim())
+					startParse = true
+				}
+			} else if (startParse && lines[i].startsWith('"')) {
+				res.push(lines[i])
 			} else if (startParse) {
 				break // Stop parsing if we have started and now reached a line that doesn't start with a quote
 			}
 		}
 
-		return single ? res.join('').replace(/""/g, '') : res // Join the array into a single string if single is true.
+		// Join the array into a single string if single is true.
+		return res
 	}
 
 	/**
@@ -81,15 +98,15 @@ export class Block {
 	toStr(): string {
 		const { comments, msgid, msgid_plural, msgstr, msgctxt } = this
 		const res = [
-			comments?.translator,
+			comments?.translator?.join('\n'),
 			comments?.extracted,
 			comments?.reference?.join('\n'),
 			comments?.flag,
 			comments?.previous?.join('\n'),
 			msgctxt,
-			msgid,
+			splitMultiline(msgid),
 			msgid_plural,
-			msgstr.join('\n'),
+			msgstr?.map((i) => splitMultiline(i))?.join('\n') || '""',
 		]
 			.filter(Boolean)
 			.filter((i) => i?.length)
@@ -103,7 +120,7 @@ export class Block {
 	 * @return {number} the hash value generated
 	 */
 	hash(): number {
-		const strToHash = this?.msgctxt + this?.msgid + this?.msgid_plural
+		const strToHash = this?.msgctxt + this?.msgid
 		let hash = 0
 		for (let i = 0; i < strToHash.length; i++) {
 			const chr = strToHash.charCodeAt(i)
