@@ -79,26 +79,6 @@ export function extractPotHeader(
 }
 
 /**
- * removes the header from the given .pot file content.
- *
- * @param {string} potFileContent - the content of the .pot file
- * @return {string} the content of the .pot file without the header
- */
-export function stripPotHeader(potFileContent: string): string {
-	const lines = potFileContent.split('\n')
-	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() !== '')
-	if (
-		lines
-			.slice(0, firstNonEmptyIndex)
-			.findIndex((line) => line.toLowerCase().includes('project-id-version'))
-	) {
-		return lines.slice(firstNonEmptyIndex).join('\n')
-	}
-
-	return potFileContent
-}
-
-/**
  * Writes the consolidated content of the SetOfBlocks to a file specified by the
  * output parameter.
  *

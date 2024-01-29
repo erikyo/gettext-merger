@@ -40,15 +40,14 @@ npx gettext-merger -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests
 
 ### Using as a Library
 
+
 #### Merging Pot Strings
 
 ```typescript
 import { mergePotFile } from './gettext-merger';
 
 const filePaths = ['file1.pot', 'file2.pot'];
-const mergedSet = await mergePotFile(filePaths);
-
-// Use mergedSet as needed
+const [headers, mergedSet] = await mergePotFile(filePaths);
 ```
 
 #### Merging Pot Files
@@ -56,10 +55,21 @@ const mergedSet = await mergePotFile(filePaths);
 ```typescript
 import { mergePotFileContent } from './gettext-merger';
 
-const fileContents = ['content1', 'content2'];
-const mergedContent = mergePotFileContent(fileContents, true);
+const fileContents = [
+	`msgid "Product Status"
+msgstr "Field: Useless Product Status"
 
-// Use mergedContent as needed
+#. Chunk file for editing product page
+#: assets/client/admin/chunks/edit-product-page.js:1
+msgid "Save Changes"
+msgstr "Button: Save Useless Changes"`,
+
+	`#. Field in products widget class
+#: includes/widgets/class-wc-widget-products.php:53
+msgid "Widget Title"
+msgstr "Field: Useless Widget Title"`
+];
+const mergedContent = mergePotFileContent(fileContents);
 ```
 
 #### Merging Pot Objects
@@ -67,23 +77,45 @@ const mergedContent = mergePotFileContent(fileContents, true);
 ```typescript
 import { mergePotObject } from './gettext-merger';
 
-const setOfBlocksArray = /* Array of SetOfBlocks objects */;
-const mergedSet = mergePotObject(setOfBlocksArray);
+const setOfBlocksArray = [
+`msgid "Product Status"
+msgstr "Field: Useless Product Status"
 
-// Use mergedSet as needed
+#. Chunk file for editing product page
+#: assets/client/admin/chunks/edit-product-page.js:1
+msgid "Save Changes"
+msgstr "Button: Save Useless Changes"`,
+
+`#. Field in products widget class
+#: includes/widgets/class-wc-widget-products.php:53
+msgid "Widget Title"
+msgstr "Field: Useless Widget Title"`
+];
+
+const mergedSet = mergePotObject(setOfBlocksArray);
 ```
 
-#### Merging Comments
+#### Extract Pot Header
 
 ```typescript
-import { mergeComments } from './gettext-merger';
+import { extractPotHeader, Block } from './gettext-merger';
 
-const comment1 = /* GetTextComment object 1 */;
-const comment2 = /* GetTextComment object 2 */;
-const mergedComment = mergeComments(comment1, comment2);
-
-// Use mergedComment as needed
+const potFileContent = [{
+	msgid: 'text1',
+	comments: {
+		extracted: ['#. Translator comment'],
+		reference: ['#: app.js'],
+	},
+},{
+	msgid: 'text2',
+	comments: {
+		extracted: ['#. Translator comment'],
+		reference: ['#: app.js'],
+	},
+}]/* content of the .pot file */;
+const [header, remainingContent] = extractPotHeader(potFileContent);
 ```
+
 
 ## Tests
 
