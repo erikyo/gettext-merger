@@ -97,6 +97,12 @@ msgstr[0] "Useless: Un prodotto è stato aggiornato"
 msgstr[1] "Useless: %s prodotti sono stati aggiornati"
 
 msgid "Unicorn Magic"
+msgstr ""
+
+msgid "Unicorn Magic"
+msgstr ""
+
+msgid "Unicorn Magic"
 msgstr ""`
 
 		const str2 = `#. Importer view for successful product update

@@ -33,6 +33,23 @@ describe('Block Class', () => {
 	})
 
 	it('should correctly calculate hash for a Block instance', () => {
+		const lines = `#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: One product has been updated"
+msgstr[1] "Useless: %s products have been updated"`.split('\n')
+		const block = new Block(lines)
+
+		expect(block.toStr()).toEqual(`#. Importer view for successful product update
+#: includes/admin/importers/views/html-csv-import-done.php:28
+msgid "%s product updated"
+msgid_plural "%s products updated"
+msgstr[0] "Useless: One product has been updated"
+msgstr[1] "Useless: %s products have been updated"`)
+	})
+
+	it('should correctly calculate hash for a Block instance', () => {
 		const lines = ['msgid "Hello"', '#: app.js', 'msgctxt "Context"']
 		const block = new Block(lines)
 		const hash = block.hash()

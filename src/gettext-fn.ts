@@ -113,7 +113,7 @@ export async function writePo(
 	output: string
 ): Promise<string> {
 	// add the header
-	let consolidated = header ? header.toStr() : ''
+	let consolidated = header ? header.toStr() + '\n\n\n' : ''
 	// consolidate the blocks
 	consolidated += blocks.toStr()
 

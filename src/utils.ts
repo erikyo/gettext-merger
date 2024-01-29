@@ -1,5 +1,4 @@
 import { Block } from './block'
-import { readFileSync } from 'fs'
 
 /**
  * Compares the hash values of two blocks.
@@ -12,10 +11,23 @@ export function hashCompare(a: Block, b: Block): number {
 	return a.hash() - b.hash()
 }
 
+/**
+ * Removes quotes from the beginning and end of a string.
+ *
+ * @param {string} str - the input string with quotes
+ * @return {string} the input string without quotes
+ */
 export function stripQuotes(str: string): string {
 	return str.replace(/^['"]+|['"]+$/g, '')
 }
 
+/**
+ * Splits a multiline string into lines with a maximum length.
+ *
+ * @param {string | undefined} str - the string to split
+ * @param {number} maxLength - the maximum length of each line
+ * @return {string | undefined} the split multiline string, or undefined if input is undefined
+ */
 export function splitMultiline(
 	str: string | undefined,
 	maxLength: number = 80
