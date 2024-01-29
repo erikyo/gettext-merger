@@ -1,10 +1,10 @@
 import { mergeComments } from './merge'
 import { GetTextComment } from './types'
-import { splitMultiline, stripQuotes } from './utils'
+import { splitMultiline } from './utils'
 
-export const matcher = {
-	msgid: /^(msgid)(.*)/,
-	msgstr: /^(msgstr)(.*)/,
+export const matcher: Record<string, RegExp> = {
+	msgid: /^(msgid(?!_))(.*)/,
+	msgstr: /^msgstr(?:\[\d+])?(.*)/, // msgstr or msgstr[0]
 	msgctxt: /^(msgctxt)(.*)/,
 	msgid_plural: /^(msgid_plural)(.*)/,
 	extracted: /^(#\.)(.*)/,
@@ -19,75 +19,68 @@ export const matcher = {
  */
 export class Block {
 	comments?: GetTextComment // #| Previous untranslated string
-	msgid: string // "%s example"
-	msgstr: string[] // ["% esempio", "%s esempi"],
+	msgid?: string // "%s example"
+	msgstr?: string[] // ["% esempio", "%s esempi"],
 	msgid_plural?: string // "%s examples"
 	msgctxt?: string // context
 
 	/**
 	 * Constructor for initializing the message properties from the given lines.
 	 *
-	 * @param {string[]} lines - The array of strings containing the message lines.
+	 * @param {string[]} data - The array of strings containing the message lines.
 	 */
-	constructor(lines: string[] | Block) {
-		if (lines instanceof Block) {
-			this.msgid = lines.msgid
-			this.msgid_plural = lines.msgid_plural
-			this.msgstr = lines.msgstr
-			this.msgctxt = lines.msgctxt
-			this.comments = lines.comments
+	constructor(data: string[] | Block) {
+		if (data instanceof Block) {
+			this.msgid = data.msgid
+			this.msgid_plural = data.msgid_plural
+			this.msgstr = data.msgstr
+			this.msgctxt = data.msgctxt
+			this.comments = data.comments
 		} else {
-			this.msgid = this.parseForLine(lines, 'msgid')
-			this.msgid_plural = this.parseForLine(lines, 'msgid_plural')
-			this.msgstr = this.parseForLines(lines, 'msgstr')
-			this.msgctxt = this.parseForLine(lines, 'msgctxt')
-			this.comments = {
-				extracted: this.parseForLine(lines, 'extracted'),
-				reference: this.parseForLines(lines, 'reference'),
-				flag: this.parseForLine(lines, 'flag'),
-				previous: this.parseForLines(lines, 'previous'),
-				translator: this.parseForLines(lines, 'translator'),
-			}
+			this.parseBlock(data)
 		}
 	}
 
-	/**
-	 * Parses the given array of strings for a specific id and returns the matching
-	 * string or array of strings.
-	 *
-	 * @param {string[]} lines - the array of strings to parse
-	 * @param {string} id - the id to search for
-	 * @return {string} the matching string or array of strings
-	 */
-	private parseForLine(lines: string[], id: string): string {
-		return this.parseForLines(lines, id)?.join('\n')
-	}
+	private parseBlock(lines: string[]): Block | undefined {
+		if (!lines.length) return undefined
 
-	private parseForLines(lines: string[], id: string): string[] {
-		if (!lines.length) return []
+		let currentType: string
+		let rawBlock: Record<keyof typeof matcher, string[]> = {}
 
-		const res: string[] = []
-
-		let startParse = false
-
-		for (let i = 0; i < lines.length; i++) {
-			const regexResult = matcher[id as keyof typeof matcher].exec(
-				lines[i]
-			) as RegExpExecArray
-			if (regexResult?.length && regexResult[2]) {
-				if (regexResult[2]) {
-					res.push(regexResult[1] + ' ' + regexResult[2].trim())
-					startParse = true
+		lines.forEach((line) => {
+			if (!line) return
+			if (line.startsWith('"')) {
+				// @ts-ignore
+				rawBlock[currentType].push(line) // Remove quotes and append
+			} else {
+				// Use the matcher object to find the type id
+				for (const type in matcher) {
+					const regexResult = matcher[type].exec(line)
+					if (regexResult) {
+						currentType = type
+						if (!rawBlock[type]) {
+							rawBlock[type] = []
+						}
+						rawBlock[type].push(regexResult[0])
+						break
+					}
 				}
-			} else if (startParse && lines[i].startsWith('"')) {
-				res.push(lines[i])
-			} else if (startParse) {
-				break // Stop parsing if we have started and now reached a line that doesn't start with a quote
 			}
-		}
+		})
 
-		// Join the array into a single string if single is true.
-		return res
+		Object.assign(this, {
+			msgid: rawBlock.msgid?.join('\n'),
+			msgid_plural: rawBlock.msgid_plural?.join('\n'),
+			msgstr: rawBlock.msgstr,
+			msgctxt: rawBlock.msgctxt?.join('\n'),
+			comments: {
+				translator: rawBlock.translator,
+				extracted: rawBlock.extracted,
+				reference: rawBlock.reference,
+				flag: rawBlock.flag,
+				previous: rawBlock.previous,
+			},
+		})
 	}
 
 	/**
@@ -120,7 +113,7 @@ export class Block {
 	 * @return {number} the hash value generated
 	 */
 	hash(): number {
-		const strToHash = this?.msgctxt + this?.msgid
+		const strToHash = this?.msgctxt || '' + this?.msgid
 		let hash = 0
 		for (let i = 0; i < strToHash.length; i++) {
 			const chr = strToHash.charCodeAt(i)
@@ -134,9 +127,9 @@ export class Block {
 	 */
 	merge(other: Block) {
 		if (this.msgid === other.msgid) {
-			this.msgid_plural = this.msgid_plural ?? other.msgid_plural
-			this.msgctxt = this.msgctxt ?? other.msgctxt
-			this.msgstr = this.msgstr ?? other.msgstr
+			this.msgid_plural = this.msgid_plural || other.msgid_plural
+			this.msgctxt = this.msgctxt || other.msgctxt
+			this.msgstr = this.msgstr || other.msgstr
 			this.comments = mergeComments(this.comments, other.comments)
 		}
 	}

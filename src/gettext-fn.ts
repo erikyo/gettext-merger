@@ -72,7 +72,10 @@ export function extractPotHeader(
 		return [undefined, potFileContent]
 	}
 
-	return [new Block(parsedLines), lines.slice(firstNonEmptyIndex).join('\n')]
+	return [
+		new Block(parsedLines),
+		lines.slice(firstNonEmptyIndex, lines.length).join('\n'),
+	]
 }
 
 /**

@@ -2,7 +2,7 @@
 export interface GetTextComment {
 	translator?: string[]
 	reference?: string[]
-	extracted?: string
+	extracted?: string[]
 	flag?: string
 	previous?: string[]
 }

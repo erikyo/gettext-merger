@@ -128,8 +128,8 @@ export function mergeComments(
 	return {
 		translator: mergeUnique(current?.translator, other?.translator),
 		reference: mergeUnique(current?.reference, other?.reference),
-		extracted: current?.extracted?.length ? current?.extracted : other?.extracted,
-		flag: current?.flag?.length ? current?.flag : other?.flag,
+		extracted: mergeUnique(current?.extracted, other?.extracted),
+		flag: mergeUnique(current?.flag, other?.flag).join('\n'),
 		previous: mergeUnique(current?.previous, other?.previous),
 	}
 }

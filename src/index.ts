@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-import { writePo, extractPotHeader } from './gettext-fn'
+import { writePo } from './gettext-fn'
 import { argv } from './cliArgs'
 import yargs from 'yargs'
-import { readFileSync } from 'fs'
 import { runMergePot } from './merge'
 
 /**
