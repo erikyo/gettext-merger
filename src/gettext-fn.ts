@@ -53,6 +53,49 @@ export function parseFile(data: string): Block[] {
 }
 
 /**
+ * Extracts the header from the given .pot file content.
+ *
+ * @param {string} potFileContent - the content of the .pot file
+ * @return {string} the header extracted from the .pot file content
+ */
+export function extractPotHeader(
+	potFileContent: string
+): [Block, string] | [undefined, string] {
+	const lines = potFileContent.split('\n')
+	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
+	const parsedLines = lines.slice(0, firstNonEmptyIndex)
+
+	if (
+		parsedLines.length === 0 ||
+		!parsedLines.find((line) => line.toLowerCase().includes('project-id-version'))
+	) {
+		return [undefined, potFileContent]
+	}
+
+	return [new Block(parsedLines), lines.slice(firstNonEmptyIndex).join('\n')]
+}
+
+/**
+ * removes the header from the given .pot file content.
+ *
+ * @param {string} potFileContent - the content of the .pot file
+ * @return {string} the content of the .pot file without the header
+ */
+export function stripPotHeader(potFileContent: string): string {
+	const lines = potFileContent.split('\n')
+	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() !== '')
+	if (
+		lines
+			.slice(0, firstNonEmptyIndex)
+			.findIndex((line) => line.toLowerCase().includes('project-id-version'))
+	) {
+		return lines.slice(firstNonEmptyIndex).join('\n')
+	}
+
+	return potFileContent
+}
+
+/**
  * Writes the consolidated content of the SetOfBlocks to a file specified by the
  * output parameter.
  *
@@ -62,13 +105,16 @@ export function parseFile(data: string): Block[] {
  * @return {Promise<string>} a promise that resolves to the consolidated content
  */
 export async function writePo(
-	header: string,
+	header: Block | undefined,
 	blocks: SetOfBlocks,
 	output: string
 ): Promise<string> {
-	const consolidated = header + '\n\n\n' + blocks.toStr()
+	// add the header
+	let consolidated = header ? header.toStr() : ''
+	// consolidate the blocks
+	consolidated += blocks.toStr()
 
-	// override by default
+	// TODO: choose whether to override the existing file
 	await fs.writeFile(output, consolidated, { encoding: 'utf8', flag: 'w' })
 	return consolidated
 }
