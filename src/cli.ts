@@ -32,7 +32,6 @@ export default function gettextMerger() {
 		.catch((err) => {
 			console.error(err)
 		})
-	yargs.help()
 }
 
 gettextMerger()

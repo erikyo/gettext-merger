@@ -2,6 +2,8 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 export const argv = yargs(hideBin(process.argv))
+	.help()
+	.version()
 	.option('in', {
 		alias: 'i',
 		describe: 'Input .pot files to merge (2 files only)',

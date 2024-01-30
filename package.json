@@ -3,18 +3,23 @@
 	"version": "0.1.0",
 	"description": "A Node.js script for merging a POT/PO files",
 	"author": "Erik Golinelli <https://github.com/erikyo>",
-	"main": "lib/index.js",
 	"license": "LGPL-2.1-or-later",
+	"main": "lib/cjs/index.js",
+	"module": "lib/esm/index.js",
+	"exports": {
+		"require": "./cjs/index.js",
+		"import": "./esm/index.js"
+	},
 	"scripts": {
-		"build": "tsc --build",
+		"build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json",
 		"watch": "tsc --watch",
 		"clean": "tsc --build --clean",
 		"lint": "eslint ./src ./tests --fix",
 		"test": "jest",
-		"run": "node ./lib/cli.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
+		"run": "node ./lib/cjs/cli.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
 	},
 	"bin": {
-		"gettext-merge": "lib/cli.js"
+		"gettext-merge": "lib/cjs/cli.js"
 	},
 	"keywords": [
 		"merge",
