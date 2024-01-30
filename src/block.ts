@@ -113,7 +113,7 @@ export class Block {
 	 * @return {number} the hash value generated
 	 */
 	hash(): number {
-		const strToHash = this?.msgctxt || '' + this?.msgid
+		const strToHash = this?.msgctxt || '' + this?.msgid // match only the gettext with the same msgctxt and msgid (context and translation string)
 		let hash = 0
 		for (let i = 0; i < strToHash.length; i++) {
 			const chr = strToHash.charCodeAt(i)

@@ -53,7 +53,7 @@ export class SetOfBlocks {
 	 */
 	toStr(): string {
 		return this.blocks
-			.filter((b) => b.msgid || b.msgid_plural)
+			.filter((b) => b.msgid)
 			.sort(hashCompare)
 			.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
 	}
@@ -66,6 +66,6 @@ export class SetOfBlocks {
 	 */
 	addArray(arr: Block[]): void {
 		for (let i = 0; i < arr.length; i++) this.add(arr[i])
-		this.blocks.filter((b) => b.msgid || b.msgid_plural)
+		this.blocks.filter((b) => b.msgid)
 	}
 }
