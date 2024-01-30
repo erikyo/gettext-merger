@@ -1,103 +1,118 @@
 import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks'
+import { extractPotHeader, parseFile } from './fs'
 import { Block } from './block'
-import { hashCompare } from './utils'
+import { GetTextComment } from './types'
 
 /**
- * Reads a block of lines from the input array and returns the block along with the remaining lines.
+ * Merges multiple arrays of blocks into a single set of blocks.
  *
- * @param {string[]} lines - The array of lines to read from.
- * @return {[string[], string[]]} An array containing the block of lines read and the remaining lines.
+ * @param {Block[][]} arrays - arrays of blocks to merge
+ * @return {SetOfBlocks} a set containing all the blocks from the input arrays
  */
-function readBlock(lines: string[]): [string[], string[]] {
-	const block: string[] = []
-	let line = lines.pop()
-
-	while (line) {
-		block.push(line)
-		line = lines.pop()
+export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
+	const set = new SetOfBlocks()
+	for (const array of arrays) {
+		set.addArray(array)
 	}
-
-	return [block, lines]
+	return set
 }
 
 /**
- * Reads and processes blocks from the given array of lines.
+ * Writes the consolidated content of blocks to a specified output file.
  *
- * @param {string[]} lines - Array of lines to process
- * @return {Block[]} The processed blocks
+ * @return {Promise<string>} the consolidated content as a string
+ * @param filePaths
  */
-function readBlocks(lines: string[]): Block[] {
-	const blocks: Block[] = []
+export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOfBlocks]> {
+	const headers: Block[] = []
+	const mergedSet = await Promise.all(
+		filePaths.map(async (filePath) => {
+			const fileContent = await fs.readFile(filePath, 'utf8')
+			const [header, content] = extractPotHeader(fileContent)
+			// Store the header in the header array
+			if (header) headers.push(header)
+			// Parse the content and return the SetOfBlocks
+			return new SetOfBlocks(parseFile(content)).blocks
+		})
+	)
 
-	while (lines.length > 0) {
-		const res = readBlock(lines)
-		const b = new Block(res[0])
-		blocks.push(b)
-		lines = res[1]
+	// Retrieve the current blocks from the mergedSet
+	const currentBlocks = Array.from(mergedSet)
+
+	// Merge current blocks with the next array of blocks
+	return [Array.from(headers), mergeBlocks(...currentBlocks)]
+}
+
+/**
+ * Merges the contents of multiple POT files into a single string.
+ *
+ * @param {string[]} fileContents - an array of file contents to be merged
+ * @return {string} the merged file contents as a single string
+ */
+export function mergePotFileContent(fileContents: string[]): string {
+	let response: string = ''
+
+	// merge the files
+	const mergedSet = fileContents.map((content) => {
+		return new SetOfBlocks(parseFile(content)).blocks
+	})
+
+	// Retrieve the current blocks from the mergedSet
+	const currentBlocks = Array.from(mergedSet)
+	// Merge current blocks with the next array of blocks
+	response += mergeBlocks(...currentBlocks).toStr()
+
+	return response
+}
+
+/**
+ * Merge PotObject with the given translationObject.
+ *
+ * @param {SetOfBlocks[]} translationObject - Array of SetOfBlocks objects to merge
+ * @return {SetOfBlocks} Merged SetOfBlocks object
+ */
+export function mergePotObject(translationObject: SetOfBlocks[]): SetOfBlocks {
+	// Merge the SetOfBlocks objects
+	const mergedSet = translationObject.map((content) => {
+		return new SetOfBlocks(content.blocks).blocks
+	})
+
+	return mergeBlocks(...mergedSet)
+}
+
+/**
+ * Helper function to merge two strings into a unique array, excluding
+ * undefined values.
+ *
+ * @param {string | undefined} current - The current string to merge.
+ * @param {string | undefined} other - The other string to merge.
+ * @return {string[]} The merged array with unique values.
+ */
+function mergeUnique(
+	current: string | string[] = [],
+	other: string | string[] = []
+): string[] {
+	const mergeSet = new Set([...current, ...other])
+	return Array.from(mergeSet)
+}
+
+/**
+ * Merges two comments into a single comment object.
+ *
+ * @param {GetTextComment | undefined} current - The current comment object
+ * @param {GetTextComment | undefined} other - The other comment object to merge
+ * @return {GetTextComment} The merged comment object
+ */
+export function mergeComments(
+	current: GetTextComment | undefined,
+	other: GetTextComment | undefined
+): GetTextComment {
+	return {
+		translator: mergeUnique(current?.translator, other?.translator),
+		reference: mergeUnique(current?.reference, other?.reference),
+		extracted: mergeUnique(current?.extracted, other?.extracted),
+		flag: mergeUnique(current?.flag, other?.flag).join('\n'),
+		previous: mergeUnique(current?.previous, other?.previous),
 	}
-
-	return blocks
-}
-
-/**
- * Parses the given data string and returns an array of Block objects.
- *
- * @param {string} data - the string to be parsed
- * @return {Block[]} an array of Block objects
- */
-export function parseFile(data: string): Block[] {
-	const lines = data.split(/\r?\n/).reverse()
-	const blocks = readBlocks(lines)
-	return blocks.sort(hashCompare)
-}
-
-/**
- * Extracts the header from the given .pot file content.
- *
- * @param {string} potFileContent - the content of the .pot file
- * @return {string} the header extracted from the .pot file content
- */
-export function extractPotHeader(
-	potFileContent: string
-): [Block, string] | [undefined, string] {
-	const lines = potFileContent.split('\n')
-	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
-	const parsedLines = lines.slice(0, firstNonEmptyIndex)
-
-	if (
-		parsedLines.length === 0 ||
-		!parsedLines.find((line) => line.toLowerCase().includes('project-id-version'))
-	) {
-		return [undefined, potFileContent]
-	}
-
-	return [
-		new Block(parsedLines),
-		lines.slice(firstNonEmptyIndex, lines.length).join('\n'),
-	]
-}
-
-/**
- * Writes the consolidated content of the SetOfBlocks to a file specified by the
- * output parameter.
- *
- * @param header - the header to be written
- * @param {SetOfBlocks} blocks - the set of blocks to be consolidated
- * @param {string} output - the path of the file to write the consolidated content
- * @return {Promise<string>} a promise that resolves to the consolidated content
- */
-export async function writePo(
-	header: Block | undefined,
-	blocks: SetOfBlocks,
-	output: string
-): Promise<string> {
-	// add the header
-	let consolidated = header ? header.toStr() + '\n\n\n' : ''
-	// consolidate the blocks
-	consolidated += blocks.toStr()
-
-	// TODO: choose whether to override the existing file
-	await fs.writeFile(output, consolidated, { encoding: 'utf8', flag: 'w' })
-	return consolidated
 }

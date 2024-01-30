@@ -1,4 +1,4 @@
-import { mergeComments } from './merge'
+import { mergeComments } from './'
 import { GetTextComment } from './types'
 import { splitMultiline } from './utils'
 

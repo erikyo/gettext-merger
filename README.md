@@ -41,19 +41,19 @@ npx gettext-merger -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests
 ### Using as a Library
 
 
-#### Merging Pot Strings
+#### Merging Pot Files
 
 ```typescript
-import { mergePotFile } from './gettext-merger';
+import { mergePotFile } from 'gettext-merger';
 
 const filePaths = ['file1.pot', 'file2.pot'];
 const [headers, mergedSet] = await mergePotFile(filePaths);
 ```
 
-#### Merging Pot Files
+#### Merging Pot Strings
 
 ```typescript
-import { mergePotFileContent } from './gettext-merger';
+import { mergePotFileContent } from 'gettext-merger';
 
 const fileContents = [
 	`msgid "Product Status"
@@ -75,32 +75,9 @@ const mergedContent = mergePotFileContent(fileContents);
 #### Merging Pot Objects
 
 ```typescript
-import { mergePotObject } from './gettext-merger';
+import { mergePotObject } from 'gettext-merger';
 
-const setOfBlocksArray = [
-`msgid "Product Status"
-msgstr "Field: Useless Product Status"
-
-#. Chunk file for editing product page
-#: assets/client/admin/chunks/edit-product-page.js:1
-msgid "Save Changes"
-msgstr "Button: Save Useless Changes"`,
-
-`#. Field in products widget class
-#: includes/widgets/class-wc-widget-products.php:53
-msgid "Widget Title"
-msgstr "Field: Useless Widget Title"`
-];
-
-const mergedSet = mergePotObject(setOfBlocksArray);
-```
-
-#### Extract Pot Header
-
-```typescript
-import { extractPotHeader, Block } from './gettext-merger';
-
-const potFileContent = [{
+const setOfBlocksArray = [{
 	msgid: 'text1',
 	comments: {
 		extracted: ['#. Translator comment'],
@@ -112,7 +89,27 @@ const potFileContent = [{
 		extracted: ['#. Translator comment'],
 		reference: ['#: app.js'],
 	},
-}]/* content of the .pot file */;
+}];
+
+const mergedSet = mergePotObject(setOfBlocksArray);
+```
+
+#### Extract Pot Header
+
+```typescript
+import { extractPotHeader, Block } from 'gettext-merger';
+
+const potFileContent = [`# Copyright (C) 2024 FantasyTech
+# This file is distributed under the same license as the Unicorn Plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Name\n"
+
+msgid "Hello"
+msgstr "Hola"
+
+msgid "Goodbye"
+msgstr "Adiós"`];
 const [header, remainingContent] = extractPotHeader(potFileContent);
 ```
 

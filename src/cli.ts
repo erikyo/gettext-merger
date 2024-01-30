@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { writePo } from './'
+import { writePo } from './fs'
 import { argv } from './cliArgs'
 import yargs from 'yargs'
-import { mergePotFile } from './merge'
+import { mergePotFile } from './'
 
 /**
  * A function that performs gettext merging.
