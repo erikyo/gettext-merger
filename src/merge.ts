@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks'
-import { extractPotHeader, parseFile } from './gettext-fn'
+import { extractPotHeader, parseFile } from './'
 import { Block } from './block'
 import { GetTextComment } from './types'
 

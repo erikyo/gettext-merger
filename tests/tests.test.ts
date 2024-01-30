@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises'
-import { writePo, extractPotHeader } from '../src/gettext-fn'
+import { writePo, extractPotHeader } from '../src/'
 import { Block } from '../src/block'
 import { SetOfBlocks } from '../src/setOfBlocks'
 import { mergePotFile } from '../src/merge'

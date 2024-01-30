@@ -11,10 +11,10 @@
 		"clean": "tsc --build --clean",
 		"lint": "eslint ./src ./tests --fix",
 		"test": "jest",
-		"run": "node ./lib/index.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
+		"run": "node ./lib/cli.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
 	},
 	"bin": {
-		"gettext-merge": "lib/index.js"
+		"gettext-merge": "lib/cli.js"
 	},
 	"keywords": [
 		"merge",
