@@ -3,7 +3,7 @@
 import { writePo } from './gettext-fn'
 import { argv } from './cliArgs'
 import yargs from 'yargs'
-import { runMergePot } from './merge'
+import { mergePotFile, runMergePot } from './merge'
 
 /**
  * A function that performs gettext merging.
@@ -13,8 +13,13 @@ import { runMergePot } from './merge'
 export default function gettextMerger() {
 	const startTime = new Date()
 	const args = argv as unknown as { in: string[]; out: string }
+	// Ensure we have exactly two input files
+	if (args.in.length <= 1) {
+		console.error('You must provide at least two input files.')
+		process.exit(1)
+	}
 	console.log('🔥 Merging ' + args.in.join(', ') + ' into ' + args.out)
-	runMergePot(args.in)
+	mergePotFile(args.in)
 		.then(([header, body]) => {
 			return writePo(header[0], body, args.out as string)
 		})

@@ -19,23 +19,6 @@ export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
 }
 
 /**
- * Asynchronously runs mergePotFile with the provided input files and returns
- * the resulting set of blocks.
- *
- * @param {string[]} inputFiles - An array of input file paths to be merged
- * @return {Promise<SetOfBlocks>} A Promise resolving to the set of blocks
- */
-export async function runMergePot(inputFiles: string[]): Promise<[Block[], SetOfBlocks]> {
-	// Ensure we have exactly two input files
-	if (inputFiles.length <= 1) {
-		console.error('You must provide at least two input files.')
-		process.exit(1)
-	}
-
-	return await mergePotFile(inputFiles)
-}
-
-/**
  * Writes the consolidated content of blocks to a specified output file.
  *
  * @return {Promise<string>} the consolidated content as a string
