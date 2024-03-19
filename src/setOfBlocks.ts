@@ -1,17 +1,21 @@
 import { Block } from './block'
 import { hashCompare } from './utils'
+import { GetTextTranslation, GetTextTranslations } from 'gettext-parser'
 
 export class SetOfBlocks {
 	/** An array of Block objects */
 	blocks: Block[]
+	path?: string
 
 	/**
 	 * Constructor for the Block class.
 	 *
 	 * @param {Block[]} arr - optional array of Block objects
+	 * @param path - optional path to the file
 	 */
-	constructor(arr?: Block[]) {
-		this.blocks = arr || []
+	constructor(arr?: GetTextTranslation[], path?: string) {
+		this.blocks = (arr as Block[]) || []
+		this.path = path || undefined
 	}
 
 	/**
@@ -56,6 +60,21 @@ export class SetOfBlocks {
 			.filter((b) => b.msgid)
 			.sort(hashCompare)
 			.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
+	}
+
+	toJson() {
+		const newSet: Record<string, { [key: string]: GetTextTranslation }> = {}
+
+		this.blocks
+			.filter((b) => b.msgid)
+			.sort(hashCompare)
+			.forEach((b) => {
+				const index = b.msgctxt || ''
+				if (!newSet[index]) newSet[index] = {}
+				newSet[index][b.msgid || ''] = b.toJson()
+			})
+
+		return newSet as GetTextTranslations['translations']
 	}
 
 	/**
