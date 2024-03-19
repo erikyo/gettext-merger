@@ -1,6 +1,7 @@
 import { mergeComments } from './'
 import { GetTextComment } from './types'
 import { splitMultiline } from './utils'
+import { GetTextTranslation, GetTextTranslations } from 'gettext-parser'
 
 export const matcher: Record<string, RegExp> = {
 	msgid: /^(msgid(?!_))(.*)/,
@@ -18,24 +19,29 @@ export const matcher: Record<string, RegExp> = {
  * This class represents a single block of PO file.
  */
 export class Block {
-	comments?: GetTextComment // #| Previous untranslated string
 	msgid?: string // "%s example"
 	msgstr?: string[] // ["% esempio", "%s esempi"],
 	msgid_plural?: string // "%s examples"
 	msgctxt?: string // context
+	comments?: GetTextComment // #| Previous untranslated string
 
 	/**
 	 * Constructor for initializing the message properties from the given lines.
 	 *
 	 * @param {string[]} data - The array of strings containing the message lines.
+	 *
+	 * @example ```javascript
+	 * new Block([
+	 *   'msgid "example"',
+	 ])
 	 */
-	constructor(data: string[] | Block) {
+	constructor(data: Block | string[]) {
 		if (data instanceof Block) {
-			this.msgid = data.msgid
-			this.msgid_plural = data.msgid_plural
-			this.msgstr = data.msgstr
-			this.msgctxt = data.msgctxt
-			this.comments = data.comments
+			this.msgid = data.msgid || ''
+			this.msgid_plural = data.msgid_plural || ''
+			this.msgstr = data.msgstr || []
+			this.msgctxt = data.msgctxt || ''
+			this.comments = data.comments || {}
 		} else {
 			this.parseBlock(data)
 		}
@@ -105,6 +111,23 @@ export class Block {
 			.filter((i) => i?.length)
 
 		return res.join('\n')
+	}
+
+	toJson(): GetTextTranslation {
+		const { comments, msgid = '', msgid_plural, msgstr = [], msgctxt = '' } = this
+		return {
+			msgctxt: msgctxt,
+			msgid: msgid,
+			msgid_plural: msgid_plural,
+			msgstr: msgstr,
+			comments: {
+				translator: comments?.translator?.join() || '',
+				extracted: comments?.extracted?.join() || '',
+				reference: comments?.reference?.join() || '',
+				flag: comments?.flag || '',
+				previous: comments?.previous?.join() || '',
+			},
+		}
 	}
 
 	/**
