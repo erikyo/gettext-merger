@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "ES2021",
+		"target": "ESNext",
 		"lib": [ "ES2021" ],
-		"moduleResolution": "Node",
+		"moduleResolution": "NodeNext",
 		"noImplicitAny": true,
 		"removeComments": true,
 		"preserveConstEnums": true,
