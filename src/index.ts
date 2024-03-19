@@ -34,7 +34,7 @@ export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOf
 			// Store the header in the header array
 			if (header) headers.push(header)
 			// Parse the content and return the SetOfBlocks
-			return new SetOfBlocks(parseFile(content) as GetTextTranslation[]).blocks
+			return new SetOfBlocks(parseFile(content)).blocks
 		})
 	)
 
@@ -56,7 +56,7 @@ export function mergePotFileContent(fileContents: string[]): string {
 
 	// merge the files
 	const mergedSet = fileContents.map((content) => {
-		return new SetOfBlocks(parseFile(content) as GetTextTranslation[]).blocks
+		return new SetOfBlocks(parseFile(content)).blocks
 	})
 
 	// Retrieve the current blocks from the mergedSet
@@ -76,7 +76,7 @@ export function mergePotFileContent(fileContents: string[]): string {
 export function mergePotObject(translationObject: SetOfBlocks[]): SetOfBlocks {
 	// Merge the SetOfBlocks objects
 	const mergedSet = translationObject.map((content) => {
-		return new SetOfBlocks(content.blocks as GetTextTranslation[]).blocks
+		return new SetOfBlocks(content.blocks).blocks
 	})
 
 	return mergeBlocks(...mergedSet)

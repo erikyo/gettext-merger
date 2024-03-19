@@ -1,5 +1,5 @@
-import { Block } from '../src/block'
-import { SetOfBlocks } from '../src/setOfBlocks'
+import { GetTextTranslation } from 'gettext-parser'
+import { Block, SetOfBlocks } from '../src'
 
 jest.mock('fs/promises')
 
@@ -76,8 +76,8 @@ msgstr[1] "Useless: %s products have been updated"`)
 
 describe('SetOfBlocks Class', () => {
 	it('should create a SetOfBlocks instance with correct properties', () => {
-		const block1 = new Block(['msgid "Hello"', 'msgstr "Hola"'])
-		const block2 = new Block(['msgid "Goodbye"', 'msgstr "Adiós"'])
+		const block1 = new Block(['msgid "Hello"', 'msgstr "Hola"']) as Block
+		const block2 = new Block(['msgid "Goodbye"', 'msgstr "Adiós"']) as Block
 		const setOfBlocks = new SetOfBlocks([block1])
 		const setOfBlocks2 = new SetOfBlocks([block2])
 
@@ -122,7 +122,7 @@ describe('SetOfBlocks Class', () => {
 				),
 		]
 
-		const setOfBlocks = new SetOfBlocks(...blocks)
+		const setOfBlocks = new SetOfBlocks(...(blocks as Block[][]))
 
 		// check that the first block is returned and no duplicates are found
 		blocks.some((block) => {

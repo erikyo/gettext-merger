@@ -13,7 +13,7 @@ export class SetOfBlocks {
 	 * @param {Block[]} arr - optional array of Block objects
 	 * @param path - optional path to the file
 	 */
-	constructor(arr?: GetTextTranslation[], path?: string) {
+	constructor(arr?: Block[], path?: string) {
 		this.blocks = (arr as Block[]) || []
 		this.path = path || undefined
 	}
