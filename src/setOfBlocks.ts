@@ -67,7 +67,7 @@ export class SetOfBlocks {
 	 *
 	 * @return {GetTextTranslations['translations']} the JSON representation of the blocks
 	 */
-	toJson() {
+	toJson(): GetTextTranslations['translations'] {
 		const newSet: Record<string, { [key: string]: GetTextTranslation }> = {}
 
 		this.blocks

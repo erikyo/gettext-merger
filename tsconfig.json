@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"lib": [ "ES2021" ],
-		"moduleResolution": "NodeNext",
+		"moduleResolution": "bundler",
 		"noImplicitAny": true,
 		"removeComments": true,
 		"preserveConstEnums": true,

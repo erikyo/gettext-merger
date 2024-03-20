@@ -2,7 +2,6 @@
 
 import { writePo } from './fs'
 import { argv } from './cliArgs'
-import yargs from 'yargs'
 import { mergePotFile } from './'
 
 /**
@@ -10,7 +9,7 @@ import { mergePotFile } from './'
  *
  * @return {void} no return value
  */
-export default function gettextMerger() {
+export default function gettextMerger(): void {
 	const startTime = new Date()
 	const args = argv as unknown as { in: string[]; out: string }
 	// Ensure we have exactly two input files

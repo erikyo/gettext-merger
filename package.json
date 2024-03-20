@@ -7,17 +7,19 @@
 	"homepage": "https://erikyo.github.io/gettext-merger/",
 	"main": "lib/cjs/index.js",
 	"module": "lib/esm/index.js",
+	"sideEffects": false,
 	"scripts": {
-		"build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json",
+		"build": "node ./build.mjs",
+		"postbuild": "tsc --emitDeclarationOnly --declaration --project tsconfig.esm.json && tsc --emitDeclarationOnly --declaration --project tsconfig.cjs.json",
 		"watch": "tsc --watch",
 		"clean": "tsc --build --clean",
 		"lint": "eslint ./src ./tests --fix",
-		"test": "jest",
-		"test:coverage": "jest --coverage",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --no-cache",
+		"test:coverage": "jest",
 		"run": "node ./lib/cjs/cli.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
 	},
 	"bin": {
-		"gettext-merge": "lib/cjs/cli.js"
+		"gettext-merge": "lib/cli/index.js"
 	},
 	"keywords": [
 		"merge",
@@ -35,14 +37,18 @@
 	"bugs": {
 		"url": "https://github.com/erikyo/gettext-merger/issues"
 	},
+	"dependencies": {
+		"yargs": "^17.7.2"
+	},
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
+		"@types/gettext-parser": "^4.0.4",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^20.11.30",
 		"@types/yargs": "^17.0.32",
-		"@types/gettext-parser": "^4.0.4",
 		"@typescript-eslint/eslint-plugin": "^6.18.1",
 		"@typescript-eslint/parser": "^6.14.0",
+		"esbuild": "0.20.2",
 		"eslint": "^8.57.0",
 		"eslint-config-standard": "^17.1.0",
 		"eslint-config-standard-with-typescript": "^43.0.0",

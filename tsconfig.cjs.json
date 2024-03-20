@@ -8,5 +8,8 @@
 		"strict": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true
-	}
+	},
+	"exclude": [
+		"./**/**cli**"
+	]
 }

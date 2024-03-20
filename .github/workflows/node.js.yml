@@ -3,16 +3,7 @@
 
 name: Node.js CI
 
-permissions:
-    contents: write
-    pages: write
-    id-token: write
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push, pull_request]
 
 jobs:
   build:
