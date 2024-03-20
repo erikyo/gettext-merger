@@ -62,6 +62,11 @@ export class SetOfBlocks {
 			.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
 	}
 
+	/**
+	 * Convert the blocks to a JSON representation using a compatible format for gettext-parser module
+	 *
+	 * @return {GetTextTranslations['translations']} the JSON representation of the blocks
+	 */
 	toJson() {
 		const newSet: Record<string, { [key: string]: GetTextTranslation }> = {}
 

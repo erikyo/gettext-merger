@@ -3,7 +3,6 @@ import { SetOfBlocks } from './setOfBlocks'
 import { extractPotHeader, parseFile } from './fs'
 import { Block } from './block'
 import { GetTextComment } from './types'
-import { GetTextTranslation } from 'gettext-parser'
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
