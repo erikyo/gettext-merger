@@ -1,7 +1,7 @@
 import { mergeComments } from './'
 import { GetTextComment } from './types'
 import { splitMultiline } from './utils'
-import { GetTextTranslation, GetTextTranslations } from 'gettext-parser'
+import { GetTextTranslation } from 'gettext-parser'
 
 export const matcher: Record<string, RegExp> = {
 	msgid: /^(msgid(?!_))(.*)/,
@@ -15,35 +15,34 @@ export const matcher: Record<string, RegExp> = {
 	translator: /^(#(?![.:,|]))(.*)/, // all # that is not #. #: #, or #|
 }
 
-/**
- * This class represents a single block of PO file.
- */
-export class Block {
+export interface Block {
 	msgid?: string // "%s example"
 	msgstr?: string[] // ["% esempio", "%s esempi"],
 	msgid_plural?: string // "%s examples"
 	msgctxt?: string // context
 	comments?: GetTextComment // #| Previous untranslated string
+}
 
+/**
+ * This class represents a single block of PO file.
+ */
+export class Block {
 	/**
 	 * Constructor for initializing the message properties from the given lines.
 	 *
-	 * @param {string[]} data - The array of strings containing the message lines.
-	 *
-	 * @example ```javascript
-	 * new Block([
-	 *   'msgid "example"',
-	 ])
+	 * @param {string | string[] | Partial<Block>} data - The array of strings containing the message lines.
 	 */
-	constructor(data: Block | string[]) {
-		if (data instanceof Block) {
-			this.msgid = data.msgid || ''
-			this.msgid_plural = data.msgid_plural || ''
-			this.msgstr = data.msgstr || []
-			this.msgctxt = data.msgctxt || ''
-			this.comments = data.comments || {}
-		} else {
+	constructor(data?: string | string[] | Partial<Block>) {
+		if (typeof data === 'string') data = data.split('\n')
+		if (Array.isArray(data)) {
 			this.parseBlock(data)
+		} else if (typeof data === 'object') {
+			for (const key in data as Partial<Block>) {
+				if (key in Block.prototype) {
+					// @ts-ignore
+					this[key] = data[key]
+				}
+			}
 		}
 	}
 
@@ -121,11 +120,11 @@ export class Block {
 			msgid_plural: msgid_plural,
 			msgstr: msgstr,
 			comments: {
-				translator: comments?.translator?.join() || '',
-				extracted: comments?.extracted?.join() || '',
-				reference: comments?.reference?.join() || '',
+				translator: comments?.translator?.join('\n') || '',
+				extracted: comments?.extracted?.join('\n') || '',
+				reference: comments?.reference?.join('\n') || '',
 				flag: comments?.flag || '',
-				previous: comments?.previous?.join() || '',
+				previous: comments?.previous?.join('\n') || '',
 			},
 		}
 	}
