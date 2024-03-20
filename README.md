@@ -1,4 +1,8 @@
-# Gettex Merger
+[![](https://img.shields.io/npm/v/gettext-merger.svg?label=npm%20version)](https://www.npmjs.com/package/gettext-merger)
+[![](https://img.shields.io/npm/l/gettext-merger)](https://github.com/erikyo/gettext-merger?tab=GPL-3.0-1-ov-file#readme)
+[![](https://github.com/erikyo/gettext-merger/actions/workflows/node.js.yml/badge.svg)](https://github.com/erikyo/gettext-merger/actions/workflows/node.js.yml)
+
+# Gettext Merger
 
 This tool is designed to merge translation files (pot files) for internationalization (i18n) in JavaScript projects. It is particularly useful when working with multiple contributors or maintaining translations across various versions of your project.
 
@@ -25,6 +29,9 @@ git clone https://github.com/erikyo/gettext-merger.git
 ```bash
 cd gettext-merger
 npm install
+
+## optionally if you want to use the CLI to test the library
+npm link
 ```
 
 ## Usage
@@ -112,7 +119,114 @@ msgid "Goodbye"
 msgstr "Adiós"`];
 const [header, remainingContent] = extractPotHeader(potFileContent);
 ```
+---
 
+### Block Class
+
+The `Block` class represents a single block of a PO file.
+
+#### Properties
+
+- `msgid?: string`: The main message string.
+- `msgstr?: string[]`: An array of translated strings.
+- `msgid_plural?: string`: The plural form of the main message.
+- `msgctxt?: string`: Context for the message.
+- `comments?: GetTextComment`: Comments associated with the block.
+
+#### Constructor
+
+- **Constructor(data: string | string[] | Partial<Block>)**: Initializes a new instance of the `Block` class.
+
+	- `data`: The data to initialize the block with, which can be a string, an array of strings, or a partial block object.
+
+#### Methods
+
+- **parseBlock(lines: string[]): Block | undefined**: Parses the provided lines and populates the block's properties.
+
+- **toStr(): string**: Converts the block to a string representation.
+
+- **toJson(): GetTextTranslation**: Converts the block to a JSON representation compatible with gettext-parser.
+
+- **hash(): number**: Generates a hash value based on the concatenation of msgctxt and msgid.
+
+- **merge(other: Block)**: Merges another block with the current block.
+
+### Usage Example
+
+```typescript
+import { Block } from 'gettext-merger'
+
+// Create a new block
+const block1 = new Block('msgid "example"')
+
+// Access and modify block properties
+block1.msgstr = ['translated example']
+
+// Convert the block to a string representation
+console.log(block1.toStr())
+
+// Merge two blocks
+const block2 = new Block('msgid "example"')
+block2.msgstr = ['another translated example']
+block1.merge(block2)
+
+// Output the merged block
+console.log(block1.toStr())
+```
+---
+
+### SetOfBlocks Class
+
+The `SetOfBlocks` class represents a collection of `Block` objects.
+
+#### Properties
+
+- `blocks: Block[]`: An array of `Block` objects contained in the set.
+- `path?: string`: Optional path to the file associated with the set.
+
+#### Constructor
+
+- **Constructor(arr?: Block[], path?: string)**: Initializes a new instance of the `SetOfBlocks` class.
+
+	- `arr`: Optional array of `Block` objects to initialize the set with.
+	- `path`: Optional path to the file associated with the set.
+
+#### Methods
+
+- **add(block: Block): void**: Adds a block to the collection, merging if a duplicate exists.
+
+- **getDuplicate(hash: number): Block | undefined**: Finds and returns a duplicate block based on the given hash.
+
+- **toStr(): string**: Converts the blocks in the set to a string representation.
+
+- **toJson(): GetTextTranslations['translations']**: Converts the blocks in the set to a JSON representation compatible with the gettext-parser module.
+
+- **addArray(arr: Block[]): void**: Adds an array of `Block` objects to the current instance.
+
+### Usage Example
+
+```typescript
+import { SetOfBlocks, Block } from 'gettext-merger'
+
+// Create a new set of blocks
+const blockSet = new SetOfBlocks()
+
+// Create a new block
+const block1 = new Block('msgid "example"')
+
+// Add the block to the set
+blockSet.add(block1)
+
+// Convert the set to a string representation
+console.log(blockSet.toStr())
+
+// Add an array of blocks to the set
+const block2 = new Block('msgid "another example"')
+blockSet.addArray([block2])
+
+// Output the JSON representation of the set
+console.log(blockSet.toJson())
+```
 
 ## Tests
 
@@ -128,4 +242,4 @@ If you find any issues or have suggestions for improvements, please feel free to
 
 ## License
 
-This tool is licensed under the [MIT License](LICENSE).
+This tool is licensed under the [GNU General Public License v3](LICENSE).

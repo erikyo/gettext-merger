@@ -1,5 +1,4 @@
-import { SetOfBlocks } from '../src/setOfBlocks'
-import { Block } from '../src/block'
+import { Block, SetOfBlocks } from '../src'
 import fs from 'fs/promises'
 import { writePo } from '../src/fs'
 
