@@ -4,6 +4,7 @@
 	"description": "A Node.js module that helps merging gettext POT/PO files",
 	"author": "Erik Golinelli <https://github.com/erikyo>",
 	"license": "GPL-3.0-or-later",
+	"homepage": "https://erikyo.github.io/gettext-merger/",
 	"main": "lib/cjs/index.js",
 	"module": "lib/esm/index.js",
 	"scripts": {
@@ -12,6 +13,7 @@
 		"clean": "tsc --build --clean",
 		"lint": "eslint ./src ./tests --fix",
 		"test": "jest",
+		"test:coverage": "jest --coverage",
 		"run": "node ./lib/cjs/cli.js -i tests/fixtures/file1.pot tests/fixtures/file2.pot -o tests/fixtures/potfile.pot"
 	},
 	"bin": {
@@ -25,16 +27,6 @@
 		"translations",
 		"locale",
 		"i18n"
-	],
-	"files": [
-		"lib/",
-		"tests/runMerge.ts",
-		"tests/tests.test.ts",
-		"*.json",
-		".gitignore",
-		".eslintrc.js",
-		"LICENSE",
-		"README.md"
 	],
 	"repository": {
 		"type": "git",
