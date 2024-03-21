@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import { Block, SetOfBlocks } from '../src'
 import fs from 'fs/promises'
 import { writePo } from '../src/fs'

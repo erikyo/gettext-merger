@@ -1,4 +1,4 @@
-import { GetTextTranslation } from 'gettext-parser'
+import { jest } from '@jest/globals'
 import { Block, SetOfBlocks } from '../src'
 
 jest.mock('fs/promises')

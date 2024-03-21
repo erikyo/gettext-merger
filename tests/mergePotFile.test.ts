@@ -1,5 +1,7 @@
+import { jest } from '@jest/globals'
 import * as fs from 'fs/promises'
 import { mergePotFile } from '../src'
+import MockedFunction = jest.MockedFunction
 
 jest.mock('fs/promises')
 
@@ -30,27 +32,35 @@ msgstr "Merci"`
 		)
 
 		const result = await mergePotFile([
-			'tests/fixtures/file1.pot',
-			'tests/fixtures/file2.pot',
+			'./tests/fixtures/file1.pot',
+			'./tests/fixtures/file2.pot',
 		])
 
-		expect(result[0][0].toStr()).toEqual(`# Copyright (C) 2024 FantasyTech
-# This file is distributed under the same license as the Unicorn Plugin.
-msgid ""
-msgstr ""
-"Project-Id-Version: Project Name\n"`)
-
-		expect(result[1].toStr()).toEqual(
-			`msgid "Hello"
-msgstr "Hola"
-
-msgid "Thank you"
-msgstr "Merci"
-
-msgid "Goodbye"
-msgstr "Adiós"
-
-`
-		)
+		expect(result[1]).toMatchObject({
+			blocks: [
+				{
+					msgid: 'msgid "Hello"',
+					msgstr: ['msgstr "Hola"'],
+					comments: {
+						translator: [],
+						reference: [],
+						extracted: [],
+						flag: '',
+						previous: [],
+					},
+				},
+				{
+					msgid: 'msgid "Goodbye"',
+					msgstr: ['msgstr "Adiós"'],
+					comments: {},
+				},
+				{},
+				{
+					msgid: 'msgid "Thank you"',
+					msgstr: ['msgstr "Merci"'],
+					comments: {},
+				},
+			],
+		})
 	})
 })

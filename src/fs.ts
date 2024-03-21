@@ -61,6 +61,10 @@ export function parseFile(data: string): Block[] {
 export function extractPotHeader(
 	potFileContent: string
 ): [Block, string] | [undefined, string] {
+	if (!potFileContent) {
+		return [undefined, '']
+	}
+
 	const lines = potFileContent.split('\n')
 	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
 	const parsedLines = lines.slice(0, firstNonEmptyIndex)

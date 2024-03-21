@@ -1,11 +1,14 @@
+import { jest } from '@jest/globals'
 import gettextMerger from '../src/cli'
 
 describe('gettextMerger', () => {
 	test('merges input files and writes output file', async () => {
 		// Mock the mergePotFile function
-		const mergePotFileMock = jest.fn().mockResolvedValue([['header'], 'body'])
+		const mergePotFileMock = jest
+			.fn()
+			.mockResolvedValue([['header'], 'body'] as never)
 		// Mock the writePo function
-		const writePoMock = jest.fn().mockResolvedValue('Success')
+		const writePoMock = jest.fn().mockResolvedValue('Success' as never)
 
 		const originalProcessExit = process.exit
 		// @ts-ignore
