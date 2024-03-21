@@ -22,7 +22,7 @@
 		"gettext-merge": "lib/cli/index.js"
 	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
+		"registry": "https://registry.npmjs.org"
 	},
 	"keywords": [
 		"merge",
