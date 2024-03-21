@@ -1,6 +1,6 @@
 // Import the required modules
 import { describe, expect, it } from 'vitest'
-import { gettextMerger } from '../src'
+import { gettextMerger } from '../src/cli'
 
 describe('gettextMerger', () => {
 	it('merges input files and writes output file', async () => {
