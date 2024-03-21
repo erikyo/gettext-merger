@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
-import { SetOfBlocks } from './setOfBlocks'
-import { Block } from './block'
-import { hashCompare } from './utils'
+import { SetOfBlocks } from './setOfBlocks.js'
+import { Block } from './block.js'
+import { hashCompare } from './utils.js'
 
 /**
  * Reads a block of lines from the input array and returns the block along with the remaining lines.

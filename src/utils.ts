@@ -1,4 +1,4 @@
-import { Block } from './block'
+import { Block } from './block.js'
 
 /**
  * Compares the hash values of two blocks.

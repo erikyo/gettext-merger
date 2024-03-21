@@ -1,9 +1,8 @@
 import fs from 'fs/promises'
-import { SetOfBlocks } from './setOfBlocks'
-import { extractPotHeader, parseFile } from './fs'
-import { Block } from './block'
-import { GetTextComment } from './types'
-import { gettextMerger } from './cli'
+import { SetOfBlocks } from './setOfBlocks.js'
+import { extractPotHeader, parseFile } from './fs.js'
+import { Block } from './block.js'
+import { GetTextComment } from './types.js'
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
@@ -118,4 +117,4 @@ export function mergeComments(
 	}
 }
 
-export { Block, SetOfBlocks, gettextMerger }
+export { Block, SetOfBlocks }

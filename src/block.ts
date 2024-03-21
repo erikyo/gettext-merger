@@ -1,6 +1,6 @@
-import { mergeComments } from './'
-import { GetTextComment } from './types'
-import { splitMultiline } from './utils'
+import { mergeComments } from './index.js'
+import { GetTextComment } from './types.js'
+import { splitMultiline } from './utils.js'
 import { GetTextTranslation } from 'gettext-parser'
 
 export const matcher: Record<string, RegExp> = {

@@ -36,9 +36,9 @@ async function build() {
 		outdir: 'lib/cjs',
 		legalComments: 'none',
 		target: 'es2015',
-		outExtension: { '.js': '.cjs' },
 		entryPoints: entryPoints,
-		minify: true,
+		keepNames: true,
+		//minify: true,
 	})
 
 	const esm = esbuild.build({
@@ -52,7 +52,6 @@ async function build() {
 		splitting: true,
 		minify: true,
 		keepNames: true,
-		outExtension: { '.js': '.mjs' },
 		mainFields: ['module', 'main'],
 	})
 

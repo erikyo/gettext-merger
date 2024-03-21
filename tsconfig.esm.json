@@ -4,11 +4,12 @@
 		"module": "ESNext",
 		"moduleResolution": "Node",
 		"target": "ESNext",
-		"noEmit": false,
+		"declaration": true,
+		"emitDeclarationOnly": true,
 		"lib": [
 			"ES2021"
 		],
-		"outDir": "./lib/esm"
+		"outDir": "./lib/@types",
 	},
 	"exclude": [
 		"./**/**cli**"

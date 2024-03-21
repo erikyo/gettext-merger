@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { writePo } from './fs'
-import { getCliArgs } from './cliArgs'
-import { mergePotFile } from './'
+import { writePo } from './fs.js'
+import { getCliArgs } from './cliArgs.js'
+import { mergePotFile } from './index.js'
 
 /**
  * A function that performs gettext merging.

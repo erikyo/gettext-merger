@@ -1,5 +1,5 @@
-import { Block } from './block'
-import { hashCompare } from './utils'
+import { Block } from './block.js'
+import { hashCompare } from './utils.js'
 import { GetTextTranslation, GetTextTranslations } from 'gettext-parser'
 
 export class SetOfBlocks {
