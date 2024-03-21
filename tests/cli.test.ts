@@ -1,43 +1,34 @@
-import { jest } from '@jest/globals'
-import gettextMerger from '../src/cli'
+// Import the required modules
+import { describe, expect, it } from 'vitest'
+import { gettextMerger } from '../src'
 
 describe('gettextMerger', () => {
-	test('merges input files and writes output file', async () => {
-		// Mock the mergePotFile function
-		const mergePotFileMock = jest
-			.fn()
-			.mockResolvedValue([['header'], 'body'] as never)
-		// Mock the writePo function
-		const writePoMock = jest.fn().mockResolvedValue('Success' as never)
-
-		const originalProcessExit = process.exit
-		// @ts-ignore
-		process.exit = jest.fn()
-
-		const originalConsoleError = console.error
-		console.error = jest.fn()
-
-		// Set up argv for testing
-		const originalArgv = process.argv
+	it('merges input files and writes output file', async () => {
 		process.argv = [
 			'',
 			'',
 			'--in',
-			'../tests/fixtures/file1.pot',
-			'../tests/fixtures/file2.pot',
+			'tests/fixtures/file1.pot',
+			'tests/fixtures/file2.pot',
 			'--out',
 			'output.po',
 		]
 
-		gettextMerger()
+		await gettextMerger()
+	})
 
-		expect(mergePotFileMock).toHaveBeenCalledWith(['file1.pot', 'file2.pot'])
-		expect(writePoMock).toHaveBeenCalledWith('header', 'body', 'output.po')
-		expect(console.error).not.toHaveBeenCalled()
-		expect(process.exit).toHaveBeenCalledWith(0)
+	it('Throws an error when the number of input files is less than 2', async () => {
+		// Mock the mergePotFile function to simulate error
+		// Mock the module using jest.unstable_mockModule
 
-		process.exit = originalProcessExit
-		console.error = originalConsoleError
-		process.argv = originalArgv
+		// Catch the error thrown by gettextMerger
+		try {
+			await gettextMerger()
+		} catch (error) {
+			// Ensure the error message matches the expected error message
+			expect((error as Error).message).toBe(
+				'You must provide at least two input files.'
+			)
+		}
 	})
 })

@@ -1,4 +1,5 @@
 import { mergePotFileContent } from '../src/'
+import { describe, expect, it } from 'vitest'
 
 describe('mergePotFiles', () => {
 	it('should merge blocks of strings with the same msgid', async () => {

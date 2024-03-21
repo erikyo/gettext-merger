@@ -1,4 +1,5 @@
 import { extractPotHeader } from '../src/fs'
+import { describe, expect, it } from 'vitest'
 
 describe('extractPotHeader', () => {
 	it('should extract the header from .pot file content', () => {
