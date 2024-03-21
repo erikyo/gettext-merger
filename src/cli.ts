@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { writePo } from './fs'
-import { argv } from './cliArgs'
+import { getCliArgs } from './cliArgs'
 import { mergePotFile } from './'
 
 /**
@@ -9,30 +9,22 @@ import { mergePotFile } from './'
  *
  * @return {void} no return value
  */
-export default function gettextMerger(): void {
+export async function gettextMerger(): Promise<void> {
 	const startTime = new Date()
-	const args = argv as unknown as { in: string[]; out: string }
+	const args = getCliArgs() as { in: string[]; out: string }
 	// Ensure we have exactly two input files
 	if (args.in.length <= 1) {
-		console.error('You must provide at least two input files.')
-		process.exit(1)
+		throw new Error('You must provide at least two input files.')
 	}
 	console.log('🔥 Merging ' + args.in.join(', ') + ' into ' + args.out)
-	mergePotFile(args.in)
-		.then(([header, body]) => {
-			return writePo(header[0], body, args.out as string)
-		})
-		.then(() => {
-			console.log(
-				'🚀 Done in ' + (new Date().getTime() - startTime.getTime()) / 1000 + 's'
-			)
-			process.exit(0)
-		})
-		.catch((err) => {
-			console.error(err)
-		})
+	const [header, body] = await mergePotFile(args.in)
+	await writePo(header[0], body, args.out as string)
+	console.log('🚀 Done in ' + (new Date().getTime() - startTime.getTime()) / 1000 + 's')
 }
 
-gettextMerger()
-
-export { gettextMerger }
+// Call the function when the file is executed directly
+if (typeof require !== 'undefined' && require.main === module) {
+	gettextMerger()
+		.then(() => process.exit(0))
+		.catch((e) => new Error(e) && process.exit(1))
+}
