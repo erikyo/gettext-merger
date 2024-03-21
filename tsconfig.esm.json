@@ -4,6 +4,7 @@
 		"module": "ESNext",
 		"moduleResolution": "Node",
 		"target": "ESNext",
+		"noEmit": false,
 		"lib": [
 			"ES2021"
 		],
