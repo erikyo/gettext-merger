@@ -1,5 +1,5 @@
 import { Block, mergePotObject, SetOfBlocks } from '../src/'
-import { GetTextTranslation } from 'gettext-parser'
+import { describe, expect, it } from 'vitest'
 
 describe('mergePotFiles', () => {
 	it('should merge blocks with the same msgid with mergePotObject', async () => {

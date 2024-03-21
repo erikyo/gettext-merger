@@ -1,7 +1,5 @@
-import { GetTextTranslation } from 'gettext-parser'
+import { describe, expect, it } from 'vitest'
 import { Block, SetOfBlocks } from '../src'
-
-jest.mock('fs/promises')
 
 describe('Block Class', () => {
 	it('should create a Block instance with correct properties', () => {

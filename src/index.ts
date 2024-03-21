@@ -3,6 +3,7 @@ import { SetOfBlocks } from './setOfBlocks'
 import { extractPotHeader, parseFile } from './fs'
 import { Block } from './block'
 import { GetTextComment } from './types'
+import { gettextMerger } from './cli'
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
@@ -117,4 +118,4 @@ export function mergeComments(
 	}
 }
 
-export { Block, SetOfBlocks }
+export { Block, SetOfBlocks, gettextMerger }

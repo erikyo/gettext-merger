@@ -2,9 +2,15 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
-		"moduleResolution": "Bundler",
+		"moduleResolution": "Node",
 		"target": "ESNext",
-		"lib": [ "ES2021" ],
+		"noEmit": false,
+		"lib": [
+			"ES2021"
+		],
 		"outDir": "./lib/esm"
-	}
+	},
+	"exclude": [
+		"./**/**cli**"
+	]
 }
