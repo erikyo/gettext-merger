@@ -1,21 +1,19 @@
 {
 	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Node",
 		"target": "ESNext",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
 		"noImplicitAny": true,
 		"removeComments": true,
 		"preserveConstEnums": true,
 		"sourceMap": true,
 		"strict": true,
-		"declaration": false,
 		"downlevelIteration": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
 		"rootDir": "src",
 		"outDir": "lib",
-		"noEmit": true,
 		// Minify
 		"pretty": false,
 		// types
