@@ -52,6 +52,7 @@ async function build() {
 		splitting: true,
 		minify: true,
 		keepNames: true,
+		outExtension: { '.js': '.mjs' },
 		mainFields: ['module', 'main'],
 	})
 

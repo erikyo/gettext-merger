@@ -1,12 +1,12 @@
 {
 	"name": "gettext-merger",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "A Node.js module that helps merging gettext POT/PO files",
 	"author": "Erik Golinelli <https://github.com/erikyo>",
 	"license": "GPL-3.0-or-later",
 	"homepage": "https://erikyo.github.io/gettext-merger/",
-	"main": "lib/cjs/index.js",
-	"module": "lib/esm/index.js",
+	"main": "lib/cjs/index.cjs",
+	"module": "lib/esm/index.mjs",
 	"sideEffects": false,
 	"scripts": {
 		"build": "node ./build.mjs",
