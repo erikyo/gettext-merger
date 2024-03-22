@@ -89,7 +89,9 @@ export class SetOfBlocks {
 	 * @return {void}
 	 */
 	addArray(arr: Block[]): void {
-		for (let i = 0; i < arr.length; i++) this.add(arr[i])
+		// for each item in the array call add on the current instance
+		for (const item of arr) this.add(item)
+		// filter out any items that don't have a msgid
 		this.blocks.filter((b) => b.msgid)
 	}
 }
