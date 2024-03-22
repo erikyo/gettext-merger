@@ -115,7 +115,7 @@ export function extractPotHeader(
 
 	const headerBlock = new Block(parsedLines)
 	headerBlock.comments = { translator: comment }
-	headerBlock.msgstr = [headerBlock.msgstr?.filter(Boolean).join('"\n"') || '""']
+	headerBlock.msgstr = [headerBlock.msgstr?.join('"\n"') || '""']
 
 	return [
 		headerBlock,
