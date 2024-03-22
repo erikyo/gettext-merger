@@ -6,6 +6,7 @@ describe('Block Class', () => {
 		const lines = [
 			'msgid "Hello"',
 			'msgstr "Hola"',
+			'msgid_plural "Holas"',
 			'#: app.js:12',
 			'#. Some comment',
 			'msgctxt "Context"',
@@ -13,13 +14,16 @@ describe('Block Class', () => {
 
 		const block = new Block(lines)
 
-		expect(block.msgid).toEqual('msgid "Hello"')
-		expect(block.msgstr).toEqual(['msgstr "Hola"'])
-		expect(block.msgctxt).toEqual('msgctxt "Context"')
+		expect(block.msgid).toEqual('Hello')
+		expect(block.msgstr).toEqual(['Hola'])
+		expect(block.msgid_plural).toEqual('Holas')
+		expect(block.msgctxt).toEqual('Context')
+		expect(block.comments?.extracted).toEqual(['Some comment'])
+		expect(block.comments?.reference).toEqual(['app.js:12'])
 	})
 
 	it('should create a Block instance with empty properties if lines are empty', () => {
-		const block = new Block([])
+		const block = new Block()
 
 		expect(block.msgid).toEqual(undefined)
 		expect(block.msgstr).toEqual(undefined)
@@ -44,14 +48,17 @@ msgstr[1] "Useless: %s products have been updated"`)
 	})
 
 	it('should correctly calculate hash for a Block instance', () => {
-		const lines = ['msgid "Hello"', '#: app.js', 'msgctxt "Context"']
-		const block = new Block(lines)
-		const hash = block.hash()
+		const block1 = new Block(['msgid "Hello"', '#: app.js', 'msgctxt "Context"'])
+		const block2 = new Block(['msgid "Hellos"', '#: app.js', 'msgctxt "Context"'])
+		const block3 = new Block(['msgid "Hello"'])
 
-		// The expected hash can be calculated manually based on the provided hash function
-		const expectedHash = 1870341923
+		expect(block1.hash()).toBeDefined()
+		expect(block2.hash()).toBeDefined()
+		expect(block3.hash()).toBeDefined()
 
-		expect(hash).toEqual(expectedHash)
+		expect(block1.hash()).not.toEqual(block2.hash())
+		expect(block1.hash()).not.toEqual(block3.hash())
+		expect(block2.hash()).not.toEqual(block3.hash())
 	})
 
 	it('should merge two Block instances correctly', () => {
@@ -67,8 +74,8 @@ msgstr[1] "Useless: %s products have been updated"`)
 
 		block1.merge(block2)
 
-		expect(block1.msgid).toEqual('msgid "Hello"')
-		expect(block1.comments?.extracted).toEqual(['#. Translator comment']) // Duplicates are removed
+		expect(block1.msgid).toEqual('Hello')
+		expect(block1.comments?.extracted).toEqual(['Translator comment']) // Duplicates are removed
 	})
 })
 

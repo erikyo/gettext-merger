@@ -1,14 +1,15 @@
 import { Block, SetOfBlocks } from '../src'
 import { describe, expect, it } from 'vitest'
+import { GetTextTranslation } from 'gettext-parser'
 
 describe('mergeToJson', () => {
 	it('toJson method converts blocks to a JSON representation', () => {
 		const instance = new SetOfBlocks()
 		instance.blocks = [
-			new Block(['msgid1', 'msgctxt1']),
-			new Block(['msgid2', 'msgctxt2']),
-			new Block(['msgid3', 'msgctxt1']),
-			new Block(['msgid4', 'msgctxt2']),
+			new Block(['msgid "msgid1"', 'msgctxt "msgctxt1"']),
+			new Block(['msgid "msgid2"', 'msgctxt "msgctxt2"']),
+			new Block(['msgid "msgid3"', 'msgctxt "msgctxt1"']),
+			new Block(['msgid "msgid4"', 'msgctxt "msgctxt2"']),
 		]
 
 		// Define the expected output

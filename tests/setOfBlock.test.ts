@@ -25,20 +25,19 @@ describe('SetOfBlocks', () => {
 		// check that the blocks have been added
 		expect(setOfBlocks.blocks.length).toBe(3)
 		// check that the blocks have been merged in the correct order
-		expect(setOfBlocks.blocks[0].msgid).toBe('msgid "block1"')
-		expect(setOfBlocks.blocks[1].msgid).toBe('msgid "block2"')
-		expect(setOfBlocks.blocks[2].msgid).toBe('msgid "block3"')
+		expect(setOfBlocks.blocks[0].msgid).toBe('block1')
+		expect(setOfBlocks.blocks[1].msgid).toBe('block2')
+		expect(setOfBlocks.blocks[2].msgid).toBe('block3')
 	})
 
 	it('getDuplicate method returns the duplicate block', () => {
 		const block1 = new Block(['msgid "Hello"', 'msgstr "Hola"'])
 		const block2 = new Block(['msgid "Goodbye"', 'msgstr "Adiós"'])
 		setOfBlocks.add(block1)
-		setOfBlocks.add(block2)
 		const duplicate1 = setOfBlocks.getDuplicate(block1.hash())
-		const duplicate2 = setOfBlocks.getDuplicate(block1.hash())
+		const duplicate2 = setOfBlocks.getDuplicate(block2.hash())
 		expect(duplicate1).toBeDefined()
-		expect(duplicate2).toBeDefined()
+		expect(duplicate2).not.toBeDefined()
 	})
 
 	it('toStr method returns string representation of blocks', () => {
@@ -55,5 +54,57 @@ msgid "Goodbye"
 msgstr "Adiós"
 
 `)
+	})
+
+	it('toStr method returns string representation of blocks', () => {
+		const block1 = new Block({ msgid: 'block1' })
+		const block2 = new Block(['msgid "block2"'])
+		const block3 = new Block(['msgid "block3"'])
+		setOfBlocks.addArray([block1, block3, block2])
+		const json = setOfBlocks.toJson()
+		expect(json).toBeDefined()
+		expect(json).toMatchObject({
+			'': {
+				block1: {
+					comments: {
+						extracted: '',
+						flag: '',
+						previous: '',
+						reference: '',
+						translator: '',
+					},
+					msgctxt: '',
+					msgid: 'block1',
+					msgid_plural: undefined,
+					msgstr: [],
+				},
+				block3: {
+					comments: {
+						extracted: '',
+						flag: '',
+						previous: '',
+						reference: '',
+						translator: '',
+					},
+					msgctxt: '',
+					msgid: 'block3',
+					msgid_plural: undefined,
+					msgstr: [],
+				},
+				block2: {
+					comments: {
+						extracted: '',
+						flag: '',
+						previous: '',
+						reference: '',
+						translator: '',
+					},
+					msgctxt: '',
+					msgid: 'block2',
+					msgid_plural: undefined,
+					msgstr: [],
+				},
+			},
+		})
 	})
 })
