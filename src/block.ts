@@ -98,8 +98,10 @@ export class Block {
 	 * @param strings array of strings
 	 * @param prefix string prefix for each line
 	 */
-	mapStrings(strings: string[] = [], prefix = '# '): string {
-		return strings?.map((line) => prefix + line).join('\n')
+	mapStrings(strings: string[] = [], prefix = '# '): string | undefined {
+		return strings.length
+			? strings?.map((line) => prefix + line).join('\n')
+			: undefined
 	}
 
 	/**
