@@ -18,7 +18,26 @@ export function hashCompare(a: Block, b: Block): number {
  * @return {string} the input string without quotes
  */
 export function stripQuotes(str: string): string {
-	return str.replace(/^['"]+|['"]+$/g, '')
+	return str.replace(/^(['"])(.*?)\1$/, '$2')
+}
+
+/**
+ * Removes quotes from the beginning and end of a string.
+ * @param str The string to unquote
+ * @returns The unquoted string
+ */
+declare global {
+	interface String {
+		unquote(): string
+	}
+}
+
+String.prototype.unquote = function (): string {
+	if (typeof this !== 'string') {
+		console.error(this, 'is not a string')
+		return String(this)
+	}
+	return stripQuotes(this)
 }
 
 /**
