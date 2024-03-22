@@ -1,8 +1,9 @@
 import fs from 'fs/promises'
 import { SetOfBlocks } from './setOfBlocks.js'
-import { extractPotHeader, parseFile } from './fs.js'
+import { parseFileContent } from './fs.js'
 import { Block } from './block.js'
 import { GetTextComment } from './types.js'
+import { extractPotHeader } from './utils'
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
@@ -33,7 +34,7 @@ export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOf
 			// Store the header in the header array
 			if (header) headers.push(header)
 			// Parse the content and return the SetOfBlocks
-			return new SetOfBlocks(parseFile(content)).blocks
+			return new SetOfBlocks(parseFileContent(content)).blocks
 		})
 	)
 
@@ -51,19 +52,15 @@ export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOf
  * @return {string} the merged file contents as a single string
  */
 export function mergePotFileContent(fileContents: string[]): string {
-	let response: string = ''
-
 	// merge the files
 	const mergedSet = fileContents.map((content) => {
-		return new SetOfBlocks(parseFile(content)).blocks
+		return new SetOfBlocks(parseFileContent(content)).blocks
 	})
 
 	// Retrieve the current blocks from the mergedSet
 	const currentBlocks = Array.from(mergedSet)
 	// Merge current blocks with the next array of blocks
-	response += mergeBlocks(...currentBlocks).toStr()
-
-	return response
+	return mergeBlocks(...currentBlocks).toStr()
 }
 
 /**
@@ -117,4 +114,4 @@ export function mergeComments(
 	}
 }
 
-export { Block, SetOfBlocks }
+export { Block, SetOfBlocks, extractPotHeader }

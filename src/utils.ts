@@ -18,7 +18,26 @@ export function hashCompare(a: Block, b: Block): number {
  * @return {string} the input string without quotes
  */
 export function stripQuotes(str: string): string {
-	return str.replace(/^['"]+|['"]+$/g, '')
+	return str.replace(/^(['"])(.*?)\1$/, '$2')
+}
+
+/**
+ * Removes quotes from the beginning and end of a string.
+ * @param str The string to unquote
+ * @returns The unquoted string
+ */
+declare global {
+	interface String {
+		unquote(): string
+	}
+}
+
+String.prototype.unquote = function (): string {
+	if (typeof this !== 'string') {
+		console.error(this, 'is not a string')
+		return String(this)
+	}
+	return stripQuotes(this)
 }
 
 /**
@@ -38,15 +57,15 @@ export function splitMultiline(
 		return str
 	}
 
-	const [__, type = '', string] = /^(\S+[\W])\s?(.*)$/.exec(str) as RegExpExecArray
-
-	const words = stripQuotes(string).split(' ')
-	let result = str.length > maxLength ? type + '""\n' : type // Adjusted for msgid format
+	const words = str.split(' ')
 	let currentLine = ''
+	let result = ''
 
 	for (let i = 0; i < words.length; i++) {
 		// Check if adding the next word exceeds the length limit
-		if ((currentLine + ' ' + words[i]).length + 1 > maxLength) {
+		if (words[i] === '\n') {
+			result += `"${currentLine.trim()}"\n`
+		} else if (`${currentLine} ${words[i]}`.length + 1 >= maxLength) {
 			result += `"${currentLine.trim()}"\n`
 			currentLine = words[i] // Start a new line with the current word
 		} else {
@@ -60,4 +79,46 @@ export function splitMultiline(
 	}
 
 	return result
+}
+
+/**
+ * Extracts the header from the given .pot file content.
+ *
+ * @param {string} potFileContent - the content of the .pot file
+ * @return {string} the header extracted from the .pot file content
+ */
+export function extractPotHeader(
+	potFileContent: string
+): [Block, string] | [undefined, string] {
+	if (!potFileContent) {
+		return [undefined, '']
+	}
+
+	// split the .pot file content into lines
+	const lines = potFileContent.split('\n')
+	let comment = lines
+		.filter((line) => line.startsWith('#'))
+		.map((line) => line.substring(1).trim())
+	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
+	/**
+	 * we skip the first line as it is the header of the .pot file
+	 * and a line for each comment found in the array (assuming there are comments only at the beginning of the file)
+	 */
+	const parsedLines = lines.slice(comment.length, firstNonEmptyIndex)
+
+	if (
+		parsedLines.length === 0 ||
+		!parsedLines.find((line) => line.toLowerCase().includes('project-id-version'))
+	) {
+		return [undefined, potFileContent]
+	}
+
+	const headerBlock = new Block(parsedLines)
+	headerBlock.comments = { translator: comment }
+	headerBlock.msgstr = [headerBlock.msgstr?.filter(Boolean).join('"\n"') || '""']
+
+	return [
+		headerBlock,
+		lines.slice(firstNonEmptyIndex + comment.length, lines.length).join('\n'),
+	]
 }

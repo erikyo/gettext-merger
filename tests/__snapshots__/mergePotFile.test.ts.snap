@@ -5,93 +5,8 @@ SetOfBlocks {
   "blocks": [
     Block {
       "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:112",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Horn Enchanting"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:138",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Append hidden spells on submit"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:103",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Automatic Unsummoning"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:266",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Mystical Powers"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:45",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Enchanters only"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
         "extracted": [
-          "#. Description of the plugin",
+          "Plugin Name of the plugin",
         ],
         "flag": undefined,
         "previous": undefined,
@@ -99,10 +14,353 @@ SetOfBlocks {
         "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "A magical plugin that brings unicorns to your website. Transform your content with enchanting features!"",
+      "msgid": "Unicorn Plugin",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr """,
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:69",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Magical Settings",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [],
+        "flag": "",
+        "previous": [],
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:131",
+          "includes/admin/meta-boxes/views/unicorn-product-data.php:5",
+        ],
+        "translator": [],
+      },
+      "msgctxt": undefined,
+      "msgid": "Unicorn magic updated with sparkles!",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:94",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Magical Spells before Summoning",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:77",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Summon unicorns automatically",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:224",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Realm of Unicorns",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:129",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Enable magical extra checks",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:82",
+          "admin/Unicorn_Admin_Core.php:83",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Unicorn Magic",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:85",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Mystical Unicorn Appearance",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:138",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Append hidden spells on submit",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:198",
+          "core/Unicorn_Mystical.php:447",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Are you ready for magic?",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Author of the plugin",
+        ],
+        "flag": undefined,
+        "previous": undefined,
+        "reference": undefined,
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "FantasyTech",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:45",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Enchanters only",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:103",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Automatic Unsummoning",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:99",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Unicorn Settings",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:378",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "You've entered the realm of unicorns! Expect enchanting experiences.",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:266",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Mystical Powers",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:112",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Horn Enchanting",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Core.php:329",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Unicorn Setup",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": undefined,
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "admin/Unicorn_Admin_Customizations.php:120",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Enable anti-muggle checks",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Description of the plugin",
+        ],
+        "flag": undefined,
+        "previous": undefined,
+        "reference": undefined,
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "A magical plugin that brings unicorns to your website. Transform your content with enchanting features!",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "",
       ],
     },
     Block {
@@ -111,498 +369,259 @@ SetOfBlocks {
         "flag": "",
         "previous": [],
         "reference": [],
-        "translator": [],
-      },
-      "msgctxt": undefined,
-      "msgid_plural": undefined,
-      "msgstr": undefined,
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:77",
+        "translator": [
+          "Copyright (C) 2024 FantasyTech",
+          "This file is distributed under the same license as the Unicorn Plugin.",
+          "Copyright (C) 2024 WastedSpace",
+          "This file is distributed under the same license as the Useless Plugin.",
         ],
-        "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Summon unicorns automatically"",
+      "msgid": "",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:94",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Magical Spells before Summoning"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:378",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "You've entered the realm of unicorns! Expect enchanting experiences."",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [],
-        "flag": "",
-        "previous": [],
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:131",
-          "#: includes/admin/meta-boxes/views/unicorn-product-data.php:5",
-        ],
-        "translator": [],
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Unicorn magic updated with sparkles!"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:69",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Magical Settings"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:198",
-          "#: core/Unicorn_Mystical.php:447",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Are you ready for magic?"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:224",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Realm of Unicorns"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:99",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Unicorn Settings"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:120",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Enable anti-muggle checks"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
+        "",
+        "Project-Id-Version: Unicorn Plugin 1.0.0\\n",
+        "Report-Msgid-Bugs-To: https://fantasytech.com/support/plugin/unicorn\\n",
+        "Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n",
+        "Language-Team: LANGUAGE <LL@li.org>\\n",
+        "MIME-Version: 1.0\\n",
+        "Content-Type: text/plain; charset=UTF-8\\n",
+        "Content-Transfer-Encoding: 8bit\\n",
+        "POT-Creation-Date: 2024-01-23T12:00:00+00:00\\n",
+        "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n",
+        "X-Generator: FantasyCLI 1.0.0-alpha-unicorn\\n",
+        "X-Domain: unicorn-plugin\\n",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Plugin Name of the plugin",
+          "Context: Product description",
         ],
-        "flag": undefined,
-        "previous": undefined,
-        "reference": undefined,
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Unicorn Plugin"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
         "flag": undefined,
         "previous": undefined,
         "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:129",
+          "includes/admin/meta-boxes/views/html-product-data-description.php:5",
         ],
         "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Enable magical extra checks"",
+      "msgid": "Product Description",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:82",
-          "#: admin/Unicorn_Admin_Core.php:83",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Unicorn Magic"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Core.php:329",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Unicorn Setup"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": undefined,
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: admin/Unicorn_Admin_Customizations.php:85",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Mystical Unicorn Appearance"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
+        "Field: Useless Product Description",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Author of the plugin",
-        ],
-        "flag": undefined,
-        "previous": undefined,
-        "reference": undefined,
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "FantasyTech"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr """,
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Context: Product description",
+          "Context: Featured products widget title",
         ],
         "flag": undefined,
         "previous": undefined,
         "reference": [
-          "#: includes/admin/meta-boxes/views/html-product-data-description.php:5",
+          "includes/widgets/class-wc-widget-featured-products.php:40",
         ],
         "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Product Description"",
+      "msgid": "Featured Products",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Field: Useless Product Description"",
+        "Widget Title: Useless Featured Products",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Importer view for successful product import",
+          "Context: Baby games category",
+        ],
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "includes/admin/meta-boxes/views/html-product-data-category.php:15",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Baby-Friendly",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "Field: Useless Baby-Friendly",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Chunk file for editing product page",
         ],
         "flag": "",
         "previous": [],
         "reference": [
-          "#: includes/admin/importers/views/html-csv-import-done.php:20",
+          "assets/client/admin/chunks/edit-product-page.js:1",
         ],
         "translator": [],
       },
       "msgctxt": undefined,
-      "msgid": "msgid "%s product imported"",
-      "msgid_plural": "msgid_plural "%s products imported"",
-      "msgstr": [
-        "msgstr[0] "Useless: One product has been imported"",
-        "msgstr[1] "Useless: %s products have been imported"",
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Chunk file for editing product page",
-        ],
-        "flag": "",
-        "previous": [],
-        "reference": [
-          "#: assets/client/admin/chunks/edit-product-page.js:1",
-        ],
-        "translator": [],
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Save Changes"",
+      "msgid": "Save Changes",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Button: Save Useless Changes"",
+        "Button: Save Useless Changes",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Context: Video games category",
+          "Context: Cart checkout button",
         ],
         "flag": undefined,
         "previous": undefined,
         "reference": [
-          "#: includes/admin/meta-boxes/views/html-product-data-category.php:20",
+          "templates/cart/cart.php:50",
         ],
         "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Game Genre"",
+      "msgid": "Proceed to Checkout",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Field: Useless Game Genre"",
+        "Button: Useless Proceed to Checkout",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Context: Featured products widget title",
-        ],
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: includes/widgets/class-wc-widget-featured-products.php:40",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Featured Products"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr "Widget Title: Useless Featured Products"",
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Field in products widget class",
+          "Field in generic mapping",
         ],
         "flag": "",
         "previous": [],
         "reference": [
-          "#: includes/widgets/class-wc-widget-products.php:53",
+          "includes/admin/importers/mappings/generic.php:26",
         ],
         "translator": [],
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Widget Title"",
+      "msgid": "Menu order",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Field: Useless Widget Title"",
+        "Field: Useless Menu Order",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Field in advanced product data view",
+          "Field in products widget class",
         ],
         "flag": "",
         "previous": [],
         "reference": [
-          "#: includes/admin/meta-boxes/views/html-product-data-advanced.php:28",
+          "includes/widgets/class-wc-widget-products.php:53",
         ],
         "translator": [],
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Product Status"",
+      "msgid": "Widget Title",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Field: Useless Product Status"",
+        "Field: Useless Widget Title",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Context: Toy category",
-        ],
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: includes/admin/meta-boxes/views/html-product-data-category.php:10",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Age Group"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr "Field: Useless Age Group"",
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Context: Cart checkout button",
-        ],
-        "flag": undefined,
-        "previous": undefined,
-        "reference": [
-          "#: templates/cart/cart.php:50",
-        ],
-        "translator": undefined,
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "Proceed to Checkout"",
-      "msgid_plural": undefined,
-      "msgstr": [
-        "msgstr "Button: Useless Proceed to Checkout"",
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Field in generic mapping",
+          "Importer view for successful product update",
         ],
         "flag": "",
         "previous": [],
         "reference": [
-          "#: includes/admin/importers/mappings/generic.php:26",
+          "includes/admin/importers/views/html-csv-import-done.php:28",
         ],
         "translator": [],
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Menu order"",
-      "msgid_plural": undefined,
+      "msgid": "%s product updated",
+      "msgid_plural": "%s products updated",
       "msgstr": [
-        "msgstr "Field: Useless Menu Order"",
+        "Useless: One product has been updated",
+        "Useless: %s products have been updated",
       ],
     },
     Block {
       "comments": {
         "extracted": [
-          "#. Importer view for successful product update",
-        ],
-        "flag": "",
-        "previous": [],
-        "reference": [
-          "#: includes/admin/importers/views/html-csv-import-done.php:28",
-        ],
-        "translator": [],
-      },
-      "msgctxt": undefined,
-      "msgid": "msgid "%s product updated"",
-      "msgid_plural": "msgid_plural "%s products updated"",
-      "msgstr": [
-        "msgstr[0] "Useless: One product has been updated"",
-        "msgstr[1] "Useless: %s products have been updated"",
-      ],
-    },
-    Block {
-      "comments": {
-        "extracted": [
-          "#. Context: Baby games category",
+          "Context: Video games category",
         ],
         "flag": undefined,
         "previous": undefined,
         "reference": [
-          "#: includes/admin/meta-boxes/views/html-product-data-category.php:15",
+          "includes/admin/meta-boxes/views/html-product-data-category.php:20",
         ],
         "translator": undefined,
       },
       "msgctxt": undefined,
-      "msgid": "msgid "Baby-Friendly"",
+      "msgid": "Game Genre",
       "msgid_plural": undefined,
       "msgstr": [
-        "msgstr "Field: Useless Baby-Friendly"",
+        "Field: Useless Game Genre",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Context: Toy category",
+        ],
+        "flag": undefined,
+        "previous": undefined,
+        "reference": [
+          "includes/admin/meta-boxes/views/html-product-data-category.php:10",
+        ],
+        "translator": undefined,
+      },
+      "msgctxt": undefined,
+      "msgid": "Age Group",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "Field: Useless Age Group",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Field in advanced product data view",
+        ],
+        "flag": "",
+        "previous": [],
+        "reference": [
+          "includes/admin/meta-boxes/views/html-product-data-advanced.php:28",
+        ],
+        "translator": [],
+      },
+      "msgctxt": undefined,
+      "msgid": "Product Status",
+      "msgid_plural": undefined,
+      "msgstr": [
+        "Field: Useless Product Status",
+      ],
+    },
+    Block {
+      "comments": {
+        "extracted": [
+          "Importer view for successful product import",
+        ],
+        "flag": "",
+        "previous": [],
+        "reference": [
+          "includes/admin/importers/views/html-csv-import-done.php:20",
+        ],
+        "translator": [],
+      },
+      "msgctxt": undefined,
+      "msgid": "%s product imported",
+      "msgid_plural": "%s products imported",
+      "msgstr": [
+        "Useless: One product has been imported",
+        "Useless: %s products have been imported",
       ],
     },
   ],

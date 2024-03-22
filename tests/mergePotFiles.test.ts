@@ -31,14 +31,14 @@ msgstr ""
 msgid "Unicorn Magic"
 msgstr ""`
 
-		const expected = `#: src/FeaturesController.php:1083
+		const expected = `#. Plugin Name of the plugin
+msgid "Unicorn Plugin"
+msgstr ""
+
+#: src/FeaturesController.php:1083
 msgid ""
 "? This plugin is incompatible with the enabled WooCommerce features "
 "'%1//$s' and '%2//$s', it shouldn't be activated."
-msgstr ""
-
-#. Plugin Name of the plugin
-msgid "Unicorn Plugin"
 msgstr ""
 
 #: admin/Unicorn_Admin_Core.php:82

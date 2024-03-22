@@ -51,35 +51,65 @@ export class SetOfBlocks {
 	}
 
 	/**
+	 * Chainable sort function
+	 *
+	 * @param type - sorting type ('alphabetically', 'numerically', etc.)
+	 * @returns {SetOfBlocks} the instance of SetOfBlocks
+	 */
+	sortBlocks(type: string = 'alphabetically'): SetOfBlocks {
+		switch (type) {
+			case 'alphabetically':
+				this.blocks.sort((a, b) => a.msgid.localeCompare(b.msgid))
+				break
+			case 'hash':
+				this.blocks.sort(hashCompare)
+				break
+		}
+		return this
+	}
+
+	/**
+	 * Chainable filter function used to remove blocks without mandatory fields
+	 * Usually you want to fire this function to clean up the blocks without the msgid
+	 *
+	 * @returns {SetOfBlocks} the instance of SetOfBlocks
+	 */
+	cleanup(
+		mandatoryField: keyof Pick<
+			GetTextTranslation,
+			'msgid' | 'msgstr' | 'msgid_plural' | 'msgctxt'
+		> = 'msgid'
+	): SetOfBlocks {
+		this.blocks = this.blocks.filter((b) => !!b[mandatoryField])
+		return this
+	}
+
+	/**
 	 * Convert the blocks to a string representation.
 	 *
 	 * @return {string} the string representation of the blocks
 	 */
 	toStr(): string {
-		return this.blocks
-			.filter((b) => b.msgid)
-			.sort(hashCompare)
-			.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
+		return this.blocks.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
 	}
 
 	/**
 	 * Convert the blocks to a JSON representation using a compatible format for gettext-parser module
 	 *
-	 * @return {GetTextTranslations['translations']} the JSON representation of the blocks
+	 * @return {Map<string, Map<string, GetTextTranslation>>} the JSON representation of the blocks
 	 */
-	toJson(): GetTextTranslations['translations'] {
-		const newSet: Record<string, { [key: string]: GetTextTranslation }> = {}
+	toJson(): { [key: string]: { [key: string]: GetTextTranslation } } {
+		const jsonObject: GetTextTranslations['translations'] = {}
 
-		this.blocks
-			.filter((b) => b.msgid)
-			.sort(hashCompare)
-			.forEach((b) => {
-				const index = b.msgctxt || ''
-				if (!newSet[index]) newSet[index] = {}
-				newSet[index][b.msgid || ''] = b.toJson()
-			})
+		this.blocks.forEach((block) => {
+			const index = block.msgctxt || ''
+			if (!jsonObject[index]) {
+				jsonObject[index] = {}
+			}
+			jsonObject[index][block.msgid] = block.toJson()
+		})
 
-		return newSet as GetTextTranslations['translations']
+		return jsonObject
 	}
 
 	/**
