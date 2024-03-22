@@ -90,6 +90,36 @@ export class Block {
 	}
 
 	/**
+	 * Map an array of strings to a string representation.
+	 *
+	 * @param strings array of strings
+	 * @param prefix string prefix for each line
+	 */
+	mapStrings(strings: string[] = [], prefix = '# '): string {
+		return strings?.map((line) => prefix + line).join('\n')
+	}
+
+	/**
+	 * Extracts a multi-line string from an array of strings.
+	 *
+	 * @param msgstr
+	 * @param prefix
+	 */
+	extractMultiString(msgstr: string[], prefix = 'msgstr'): string {
+		if (msgstr.length > 1) {
+			return msgstr
+				.map(
+					(line, index) =>
+						`${prefix}${msgstr.length > 1 ? '[' + index + ']' : ''} "${splitMultiline(line)}"`
+				)
+				.join('\n')
+		} else if (msgstr.length === 1) {
+			return `${prefix} "${msgstr[0]}"`
+		}
+		return `${prefix} ""`
+	}
+
+	/**
 	 * Converts the object to a string representation.
 	 *
 	 * @return {string} The string representation of the object.
