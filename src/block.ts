@@ -56,18 +56,21 @@ export class Block {
 		lines.forEach((line) => {
 			if (!line) return
 			if (line.startsWith('"')) {
-				// @ts-ignore
-				rawBlock[currentType].push(line) // Remove quotes and append
+				currentType = currentType || 'msgid' // Assuming the default type is 'msgid' when the line starts with "
+				rawBlock[currentType] = rawBlock[currentType] || [] // Initialize rawBlock[currentType] as an array if not yet defined
+				rawBlock[currentType].push(line.unquote()) // Remove quotes and append
 			} else {
 				// Use the matcher object to find the type id
 				for (const type in matcher) {
-					const regexResult = matcher[type].exec(line)
+					const regexResult = matcher[type].exec(line.unquote())
 					if (regexResult) {
 						currentType = type
+						// Initialize rawBlock[type] as an array if not yet defined
 						if (!rawBlock[type]) {
 							rawBlock[type] = []
 						}
-						rawBlock[type].push(regexResult[0])
+						// Append the matched string to rawBlock[type]
+						rawBlock[type].push(regexResult[2].trim().unquote())
 						break
 					}
 				}
@@ -75,16 +78,16 @@ export class Block {
 		})
 
 		Object.assign(this, {
-			msgid: rawBlock.msgid?.join('\n'),
+			msgid: rawBlock.msgid.join('"\n"') || '',
 			msgid_plural: rawBlock.msgid_plural?.join('\n'),
-			msgstr: rawBlock.msgstr,
+			msgstr: rawBlock.msgstr || [],
 			msgctxt: rawBlock.msgctxt?.join('\n'),
 			comments: {
-				translator: rawBlock.translator,
-				extracted: rawBlock.extracted,
-				reference: rawBlock.reference,
-				flag: rawBlock.flag,
-				previous: rawBlock.previous,
+				translator: rawBlock?.translator,
+				extracted: rawBlock?.extracted,
+				reference: rawBlock?.reference,
+				flag: rawBlock?.flag,
+				previous: rawBlock?.previous,
 			},
 		})
 	}
@@ -127,18 +130,18 @@ export class Block {
 	toStr(): string {
 		const { comments, msgid, msgid_plural, msgstr, msgctxt } = this
 		const res = [
-			comments?.translator?.join('\n'),
-			comments?.extracted,
-			comments?.reference?.join('\n'),
-			comments?.flag,
-			comments?.previous?.join('\n'),
-			msgctxt,
-			splitMultiline(msgid),
-			msgid_plural,
-			msgstr?.map((i) => splitMultiline(i))?.join('\n') || '""',
+			this.mapStrings(comments?.translator), // Add key for translator comments
+			this.mapStrings(comments?.extracted, '#. '), // Add key for extracted comments
+			this.mapStrings(comments?.reference, '#: '), // Add key for reference comments
+			comments?.flag ? `#, ${comments.flag}` : undefined, // Add key for flag comments
+			this.mapStrings(comments?.previous, '#| '), // Add key for previous comments
+			msgctxt ? `msgctxt "${msgctxt}"` : undefined, // Add key for msgctxt
+			msgid ? `msgid "${splitMultiline(msgid)}"` : 'msgid ""', // Add key for msgid even if it's empty
+			msgid_plural ? `msgid_plural "${msgid_plural}"` : undefined, // Add key for msgid_plural
+			msgstr ? this.extractMultiString(msgstr) : 'msgstr ""', // Add keys for msgstr even if it's empty
 		]
 			.filter(Boolean)
-			.filter((i) => i?.length)
+			.filter((line) => line?.length)
 
 		return res.join('\n')
 	}
@@ -166,13 +169,15 @@ export class Block {
 	 * @return {number} the hash value generated
 	 */
 	hash(): number {
-		const strToHash = this?.msgctxt || '' + this?.msgid // match only the gettext with the same msgctxt and msgid (context and translation string)
-		let hash = 0
+		const strToHash = (this.msgctxt || '') + '|' + (this.msgid || '') // match only the gettext with the same msgctxt and msgid (context and translation string)
+		let hash = 0x811c9dc5 // FNV offset basis (32-bit)
+
 		for (let i = 0; i < strToHash.length; i++) {
-			const chr = strToHash.charCodeAt(i)
-			hash = ((hash << 5) - hash + chr) | 0
+			hash ^= strToHash.charCodeAt(i) // XOR the hash with the current character code
+			hash *= 0x01000193 // FNV prime (32-bit)
 		}
-		return hash
+
+		return hash >>> 0
 	}
 
 	/**
