@@ -5,18 +5,18 @@ import { GetTextTranslation } from 'gettext-parser'
 
 export const matcher: Record<string, RegExp> = {
 	msgid: /^(msgid(?!_))(.*)/,
-	msgstr: /^msgstr(?:\[\d+])?(.*)/, // msgstr or msgstr[0]
-	msgctxt: /^(msgctxt)(.*)/,
-	msgid_plural: /^(msgid_plural)(.*)/,
+	msgstr: /^(msgstr(?:\[\d+])?)\s+(.*)/, // msgstr or msgstr[0]
+	msgctxt: /^(msgctxt)\s+(.*)/,
+	msgid_plural: /^(msgid_plural)\s+(.*)/,
 	extracted: /^(#\.)(.*)/,
-	reference: /^(#:)(.*)/,
-	flag: /^(#,)(.*)/,
-	previous: /^(#\|)(.*)/,
-	translator: /^(#(?![.:,|]))(.*)/, // all # that is not #. #: #, or #|
+	reference: /^(#:)\s+(.*)/,
+	flag: /^(#(?:[^:.,|]|$))\s+(.*)/,
+	previous: /^(#\|)\s+(.*)/,
+	translator: /^(#(?![.:,|]))\s+(.*)/, // OK, I'm lazy! Anyway, this will catch all "#" stuff that is not #. #: #, or #|
 }
 
 export interface Block {
-	msgid?: string // "%s example"
+	msgid: string // "%s example"
 	msgstr?: string[] // ["% esempio", "%s esempi"],
 	msgid_plural?: string // "%s examples"
 	msgctxt?: string // context
@@ -38,9 +38,10 @@ export class Block {
 			this.parseBlock(data)
 		} else if (typeof data === 'object') {
 			for (const key in data as Partial<Block>) {
-				if (key in Block.prototype) {
+				// check if the key exists in the class
+				if (typeof this[key as keyof Block] !== null) {
 					// @ts-ignore
-					this[key] = data[key]
+					this[key as keyof Block] = data[key]
 				}
 			}
 		}
