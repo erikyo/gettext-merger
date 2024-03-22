@@ -80,3 +80,45 @@ export function splitMultiline(
 
 	return result
 }
+
+/**
+ * Extracts the header from the given .pot file content.
+ *
+ * @param {string} potFileContent - the content of the .pot file
+ * @return {string} the header extracted from the .pot file content
+ */
+export function extractPotHeader(
+	potFileContent: string
+): [Block, string] | [undefined, string] {
+	if (!potFileContent) {
+		return [undefined, '']
+	}
+
+	// split the .pot file content into lines
+	const lines = potFileContent.split('\n')
+	let comment = lines
+		.filter((line) => line.startsWith('#'))
+		.map((line) => line.substring(1).trim())
+	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
+	/**
+	 * we skip the first line as it is the header of the .pot file
+	 * and a line for each comment found in the array (assuming there are comments only at the beginning of the file)
+	 */
+	const parsedLines = lines.slice(comment.length, firstNonEmptyIndex)
+
+	if (
+		parsedLines.length === 0 ||
+		!parsedLines.find((line) => line.toLowerCase().includes('project-id-version'))
+	) {
+		return [undefined, potFileContent]
+	}
+
+	const headerBlock = new Block(parsedLines)
+	headerBlock.comments = { translator: comment }
+	headerBlock.msgstr = [headerBlock.msgstr?.filter(Boolean).join('"\n"') || '""']
+
+	return [
+		headerBlock,
+		lines.slice(firstNonEmptyIndex + comment.length, lines.length).join('\n'),
+	]
+}

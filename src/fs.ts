@@ -46,40 +46,10 @@ function readBlocks(lines: string[]): Block[] {
  * @param {string} data - the string to be parsed
  * @return {Block[]} an array of Block objects
  */
-export function parseFile(data: string): Block[] {
+export function parseFileContent(data: string): Block[] {
 	const lines = data.split(/\r?\n/).reverse()
 	const blocks = readBlocks(lines)
 	return blocks.sort(hashCompare)
-}
-
-/**
- * Extracts the header from the given .pot file content.
- *
- * @param {string} potFileContent - the content of the .pot file
- * @return {string} the header extracted from the .pot file content
- */
-export function extractPotHeader(
-	potFileContent: string
-): [Block, string] | [undefined, string] {
-	if (!potFileContent) {
-		return [undefined, '']
-	}
-
-	const lines = potFileContent.split('\n')
-	const firstNonEmptyIndex = lines.findIndex((line) => line.trim() === '')
-	const parsedLines = lines.slice(0, firstNonEmptyIndex)
-
-	if (
-		parsedLines.length === 0 ||
-		!parsedLines.find((line) => line.toLowerCase().includes('project-id-version'))
-	) {
-		return [undefined, potFileContent]
-	}
-
-	return [
-		new Block(parsedLines),
-		lines.slice(firstNonEmptyIndex, lines.length).join('\n'),
-	]
 }
 
 /**
@@ -99,7 +69,7 @@ export async function writePo(
 	// add the header
 	let consolidated = header ? header.toStr() + '\n\n\n' : ''
 	// consolidate the blocks
-	consolidated += blocks.toStr()
+	consolidated += blocks.cleanup().toStr()
 
 	// TODO: choose whether to override the existing file
 	await fs.writeFile(output, consolidated, { encoding: 'utf8', flag: 'w' })
