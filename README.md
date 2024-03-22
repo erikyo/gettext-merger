@@ -1,6 +1,7 @@
 [![](https://img.shields.io/npm/v/gettext-merger.svg?label=npm%20version)](https://www.npmjs.com/package/gettext-merger)
 [![](https://img.shields.io/npm/l/gettext-merger)](https://github.com/erikyo/gettext-merger?tab=GPL-3.0-1-ov-file#readme)
 [![](https://github.com/erikyo/gettext-merger/actions/workflows/node.js.yml/badge.svg)](https://github.com/erikyo/gettext-merger/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/erikyo/gettext-merger/graph/badge.svg?token=K0UA5J7243)](https://codecov.io/gh/erikyo/gettext-merger)
 
 # Gettext Merger
 
