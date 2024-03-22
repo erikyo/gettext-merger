@@ -10,7 +10,7 @@
 		"allowSyntheticDefaultImports": true,
 		"experimentalDecorators": true,
 		"rootDir": "src",
-		"outDir": "lib",
+		"outDir": "lib/esm",
 		// Minify
 		"pretty": false,
 		// types
