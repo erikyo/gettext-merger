@@ -57,15 +57,15 @@ export function splitMultiline(
 		return str
 	}
 
-	const [__, type = '', string] = /^(\S+[\W])\s?(.*)$/.exec(str) as RegExpExecArray
-
-	const words = stripQuotes(string).split(' ')
-	let result = str.length > maxLength ? type + '""\n' : type // Adjusted for msgid format
+	const words = str.split(' ')
 	let currentLine = ''
+	let result = ''
 
 	for (let i = 0; i < words.length; i++) {
 		// Check if adding the next word exceeds the length limit
-		if ((currentLine + ' ' + words[i]).length + 1 > maxLength) {
+		if (words[i] === '\n') {
+			result += `"${currentLine.trim()}"\n`
+		} else if (`${currentLine} ${words[i]}`.length + 1 >= maxLength) {
 			result += `"${currentLine.trim()}"\n`
 			currentLine = words[i] // Start a new line with the current word
 		} else {
