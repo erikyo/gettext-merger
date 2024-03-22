@@ -51,6 +51,40 @@ export class SetOfBlocks {
 	}
 
 	/**
+	 * Chainable sort function
+	 *
+	 * @param type - sorting type ('alphabetically', 'numerically', etc.)
+	 * @returns {SetOfBlocks} the instance of SetOfBlocks
+	 */
+	sortBlocks(type: string = 'alphabetically'): SetOfBlocks {
+		switch (type) {
+			case 'alphabetically':
+				this.blocks.sort((a, b) => a.msgid.localeCompare(b.msgid))
+				break
+			case 'hash':
+				this.blocks.sort(hashCompare)
+				break
+		}
+		return this
+	}
+
+	/**
+	 * Chainable filter function used to remove blocks without mandatory fields
+	 * Usually you want to fire this function to clean up the blocks without the msgid
+	 *
+	 * @returns {SetOfBlocks} the instance of SetOfBlocks
+	 */
+	cleanup(
+		mandatoryField: keyof Pick<
+			GetTextTranslation,
+			'msgid' | 'msgstr' | 'msgid_plural' | 'msgctxt'
+		> = 'msgid'
+	): SetOfBlocks {
+		this.blocks = this.blocks.filter((b) => !!b[mandatoryField])
+		return this
+	}
+
+	/**
 	 * Convert the blocks to a string representation.
 	 *
 	 * @return {string} the string representation of the blocks
