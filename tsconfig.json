@@ -11,16 +11,9 @@
 		"experimentalDecorators": true,
 		"rootDir": "src",
 		"outDir": "lib/esm",
-		// Minify
+		"skipLibCheck": true,
 		"pretty": false,
-		// types
-		"typeRoots": [
-			"src/types.d.ts",
-			"node_modules/@types",
-			"@types"
-		]
+		"typeRoots": ["src/types.d.ts", "node_modules/@types", "@types"]
 	},
-	"include": [
-		"./src/**/*"
-	]
+	"include": ["./src/**/*"]
 }

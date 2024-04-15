@@ -105,7 +105,7 @@ const mergedSet = mergePotObject(setOfBlocksArray);
 #### Extract Pot Header
 
 ```typescript
-import { extractPotHeader, Block } from 'gettext-merger';
+import { extractPotHeader, BlockType } from 'gettext-merger';
 
 const potFileContent = [`# Copyright (C) 2024 FantasyTech
 # This file is distributed under the same license as the Unicorn Plugin.
@@ -122,9 +122,9 @@ const [header, remainingContent] = extractPotHeader(potFileContent);
 ```
 ---
 
-### Block Class
+### BlockType Class
 
-The `Block` class represents a single block of a PO file.
+The `BlockType` class represents a single block of a PO file.
 
 #### Properties
 
@@ -136,13 +136,13 @@ The `Block` class represents a single block of a PO file.
 
 #### Constructor
 
-- **Constructor(data: string | string[] | Partial<Block>)**: Initializes a new instance of the `Block` class.
+- **Constructor(data: string | string[] | Partial<BlockType>)**: Initializes a new instance of the `BlockType` class.
 
 	- `data`: The data to initialize the block with, which can be a string, an array of strings, or a partial block object.
 
 #### Methods
 
-- **parseBlock(lines: string[]): Block | undefined**: Parses the provided lines and populates the block's properties.
+- **parseBlock(lines: string[]): BlockType | undefined**: Parses the provided lines and populates the block's properties.
 
 - **toStr(): string**: Converts the block to a string representation.
 
@@ -150,15 +150,15 @@ The `Block` class represents a single block of a PO file.
 
 - **hash(): number**: Generates a hash value based on the concatenation of msgctxt and msgid.
 
-- **merge(other: Block)**: Merges another block with the current block.
+- **merge(other: BlockType)**: Merges another block with the current block.
 
 ### Usage Example
 
 ```typescript
-import { Block } from 'gettext-merger'
+import { BlockType } from 'gettext-merger'
 
 // Create a new block
-const block1 = new Block('msgid "example"')
+const block1 = new BlockType('msgid "example"')
 
 // Access and modify block properties
 block1.msgstr = ['translated example']
@@ -167,7 +167,7 @@ block1.msgstr = ['translated example']
 console.log(block1.toStr())
 
 // Merge two blocks
-const block2 = new Block('msgid "example"')
+const block2 = new BlockType('msgid "example"')
 block2.msgstr = ['another translated example']
 block1.merge(block2)
 
@@ -178,42 +178,42 @@ console.log(block1.toStr())
 
 ### SetOfBlocks Class
 
-The `SetOfBlocks` class represents a collection of `Block` objects.
+The `SetOfBlocks` class represents a collection of `BlockType` objects.
 
 #### Properties
 
-- `blocks: Block[]`: An array of `Block` objects contained in the set.
+- `blocks: BlockType[]`: An array of `BlockType` objects contained in the set.
 - `path?: string`: Optional path to the file associated with the set.
 
 #### Constructor
 
-- **Constructor(arr?: Block[], path?: string)**: Initializes a new instance of the `SetOfBlocks` class.
+- **Constructor(arr?: BlockType[], path?: string)**: Initializes a new instance of the `SetOfBlocks` class.
 
-	- `arr`: Optional array of `Block` objects to initialize the set with.
+	- `arr`: Optional array of `BlockType` objects to initialize the set with.
 	- `path`: Optional path to the file associated with the set.
 
 #### Methods
 
-- **add(block: Block): void**: Adds a block to the collection, merging if a duplicate exists.
+- **add(block: BlockType): void**: Adds a block to the collection, merging if a duplicate exists.
 
-- **getDuplicate(hash: number): Block | undefined**: Finds and returns a duplicate block based on the given hash.
+- **getDuplicate(hash: number): BlockType | undefined**: Finds and returns a duplicate block based on the given hash.
 
 - **toStr(): string**: Converts the blocks in the set to a string representation.
 
 - **toJson(): GetTextTranslations['translations']**: Converts the blocks in the set to a JSON representation compatible with the gettext-parser module.
 
-- **addArray(arr: Block[]): void**: Adds an array of `Block` objects to the current instance.
+- **addArray(arr: BlockType[]): void**: Adds an array of `BlockType` objects to the current instance.
 
 ### Usage Example
 
 ```typescript
-import { SetOfBlocks, Block } from 'gettext-merger'
+import { SetOfBlocks, BlockType } from 'gettext-merger'
 
 // Create a new set of blocks
 const blockSet = new SetOfBlocks()
 
 // Create a new block
-const block1 = new Block('msgid "example"')
+const block1 = new BlockType('msgid "example"')
 
 // Add the block to the set
 blockSet.add(block1)
@@ -222,7 +222,7 @@ blockSet.add(block1)
 console.log(blockSet.toStr())
 
 // Add an array of blocks to the set
-const block2 = new Block('msgid "another example"')
+const block2 = new BlockType('msgid "another example"')
 blockSet.addArray([block2])
 
 // Output the JSON representation of the set
