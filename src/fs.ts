@@ -1,7 +1,7 @@
-import fs from 'fs/promises'
-import { SetOfBlocks } from './setOfBlocks.js'
-import { Block } from './block.js'
-import { hashCompare } from './utils.js'
+import fs from "node:fs/promises";
+import { Block } from "./Block.js";
+import type { SetOfBlocks } from "./SetOfBlocks.js";
+import { hashCompare } from "./utils.js";
 
 /**
  * Reads a block of lines from the input array and returns the block along with the remaining lines.
@@ -10,15 +10,15 @@ import { hashCompare } from './utils.js'
  * @return {[string[], string[]]} An array containing the block of lines read and the remaining lines.
  */
 function readBlock(lines: string[]): [string[], string[]] {
-	const block: string[] = []
-	let line = lines.pop()
+	const block: string[] = [];
+	let line = lines.pop();
 
 	while (line) {
-		block.push(line)
-		line = lines.pop()
+		block.push(line);
+		line = lines.pop();
 	}
 
-	return [block, lines]
+	return [block, lines];
 }
 
 /**
@@ -28,16 +28,17 @@ function readBlock(lines: string[]): [string[], string[]] {
  * @return {Block[]} The processed blocks
  */
 function readBlocks(lines: string[]): Block[] {
-	const blocks: Block[] = []
+	const blocks: Block[] = [];
+	let parsedLines = lines;
 
-	while (lines.length > 0) {
-		const res = readBlock(lines)
-		const b = new Block(res[0])
-		blocks.push(b)
-		lines = res[1]
+	while (parsedLines.length > 0) {
+		const res = readBlock(parsedLines);
+		const b = new Block(res[0]);
+		blocks.push(b);
+		parsedLines = res[1];
 	}
 
-	return blocks
+	return blocks;
 }
 
 /**
@@ -47,9 +48,9 @@ function readBlocks(lines: string[]): Block[] {
  * @return {Block[]} an array of Block objects
  */
 export function parseFileContent(data: string): Block[] {
-	const lines = data.split(/\r?\n/).reverse()
-	const blocks = readBlocks(lines)
-	return blocks.sort(hashCompare)
+	const lines = data.split(/\r?\n/).reverse();
+	const blocks = readBlocks(lines);
+	return blocks.sort(hashCompare);
 }
 
 /**
@@ -64,14 +65,14 @@ export function parseFileContent(data: string): Block[] {
 export async function writePo(
 	header: Block | undefined,
 	blocks: SetOfBlocks,
-	output: string
+	output: string,
 ): Promise<string> {
 	// add the header
-	let consolidated = header ? header.toStr() + '\n\n\n' : ''
+	let consolidated = header ? `${header.toStr()}\n\n\n` : "";
 	// consolidate the blocks
-	consolidated += blocks.cleanup().toStr()
+	consolidated += blocks.cleanup().toStr();
 
 	// TODO: choose whether to override the existing file
-	await fs.writeFile(output, consolidated, { encoding: 'utf8', flag: 'w' })
-	return consolidated
+	await fs.writeFile(output, consolidated, { encoding: "utf8", flag: "w" });
+	return consolidated;
 }
