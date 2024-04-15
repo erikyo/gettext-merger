@@ -1,11 +1,11 @@
-import { Block } from './block.js'
-import { hashCompare } from './utils.js'
-import { GetTextTranslation, GetTextTranslations } from 'gettext-parser'
+import type { GetTextTranslation, GetTextTranslations } from "gettext-parser";
+import type { Block } from "./Block.js";
+import { hashCompare } from "./utils.js";
 
 export class SetOfBlocks {
 	/** An array of Block objects */
-	blocks: Block[]
-	path?: string
+	blocks: Block[];
+	path?: string;
 
 	/**
 	 * Constructor for the Block class.
@@ -14,8 +14,8 @@ export class SetOfBlocks {
 	 * @param path - optional path to the file
 	 */
 	constructor(arr?: Block[], path?: string) {
-		this.blocks = (arr as Block[]) || []
-		this.path = path || undefined
+		this.blocks = (arr as Block[]) || [];
+		this.path = path || undefined;
 	}
 
 	/**
@@ -25,12 +25,12 @@ export class SetOfBlocks {
 	 * @return {void}
 	 */
 	add(block: Block): void {
-		const duplicate = this.getDuplicate(block.hash())
+		const duplicate = this.getDuplicate(block.hash());
 
 		if (duplicate) {
-			duplicate.merge(block)
+			duplicate.merge(block);
 		} else {
-			this.blocks.push(block)
+			this.blocks.push(block);
 		}
 	}
 
@@ -43,11 +43,11 @@ export class SetOfBlocks {
 	getDuplicate(hash: number): Block | undefined {
 		for (let i = 0; i < this.blocks.length; i++) {
 			if (this.blocks[i].hash() === hash) {
-				return this.blocks[i]
+				return this.blocks[i];
 			}
 		}
 
-		return undefined
+		return undefined;
 	}
 
 	/**
@@ -56,16 +56,19 @@ export class SetOfBlocks {
 	 * @param type - sorting type ('alphabetically', 'numerically', etc.)
 	 * @returns {SetOfBlocks} the instance of SetOfBlocks
 	 */
-	sortBlocks(type: string = 'alphabetically'): SetOfBlocks {
+	sortBlocks(type = "alphabetically"): SetOfBlocks {
 		switch (type) {
-			case 'alphabetically':
-				this.blocks.sort((a, b) => a.msgid.localeCompare(b.msgid))
-				break
-			case 'hash':
-				this.blocks.sort(hashCompare)
-				break
+			case "alphabetically":
+				this.blocks.sort((a, b) => {
+					const AMsgID = a.msgid || "";
+					return AMsgID.localeCompare(b.msgid || "");
+				});
+				break;
+			case "hash":
+				this.blocks.sort(hashCompare);
+				break;
 		}
-		return this
+		return this;
 	}
 
 	/**
@@ -77,11 +80,11 @@ export class SetOfBlocks {
 	cleanup(
 		mandatoryField: keyof Pick<
 			GetTextTranslation,
-			'msgid' | 'msgstr' | 'msgid_plural' | 'msgctxt'
-		> = 'msgid'
+			"msgid" | "msgstr" | "msgid_plural" | "msgctxt"
+		> = "msgid",
 	): SetOfBlocks {
-		this.blocks = this.blocks.filter((b) => !!b[mandatoryField])
-		return this
+		this.blocks = this.blocks.filter((b) => !!b[mandatoryField]);
+		return this;
 	}
 
 	/**
@@ -90,7 +93,7 @@ export class SetOfBlocks {
 	 * @return {string} the string representation of the blocks
 	 */
 	toStr(): string {
-		return this.blocks.reduce((prev, curr) => prev + curr.toStr() + '\n\n', '')
+		return this.blocks.reduce((prev, curr) => `${prev + curr.toStr()}\n\n`, "");
 	}
 
 	/**
@@ -99,17 +102,17 @@ export class SetOfBlocks {
 	 * @return {Map<string, Map<string, GetTextTranslation>>} the JSON representation of the blocks
 	 */
 	toJson(): { [key: string]: { [key: string]: GetTextTranslation } } {
-		const jsonObject: GetTextTranslations['translations'] = {}
+		const jsonObject: GetTextTranslations["translations"] = {};
 
-		this.blocks.forEach((block) => {
-			const index = block.msgctxt || ''
+		for (const block of this.blocks) {
+			const index = block.msgctxt || "";
 			if (!jsonObject[index]) {
-				jsonObject[index] = {}
+				jsonObject[index] = {};
 			}
-			jsonObject[index][block.msgid] = block.toJson()
-		})
+			jsonObject[index][block.msgid || ""] = block.toJson();
+		}
 
-		return jsonObject
+		return jsonObject;
 	}
 
 	/**
@@ -120,8 +123,8 @@ export class SetOfBlocks {
 	 */
 	addArray(arr: Block[]): void {
 		// for each item in the array call add on the current instance
-		for (const item of arr) this.add(item)
+		for (const item of arr) this.add(item);
 		// filter out any items that don't have a msgid
-		this.blocks.filter((b) => b.msgid)
+		this.blocks.filter((b) => b.msgid);
 	}
 }
