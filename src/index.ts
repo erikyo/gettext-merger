@@ -1,9 +1,9 @@
-import fs from 'fs/promises'
-import { SetOfBlocks } from './setOfBlocks.js'
-import { parseFileContent } from './fs.js'
-import { Block } from './block.js'
-import { GetTextComment } from './types.js'
-import { extractPotHeader } from './utils'
+import fs from "node:fs/promises";
+import { Block } from "./Block.js";
+import { SetOfBlocks } from "./SetOfBlocks.js";
+import { parseFileContent } from "./fs.js";
+import type { GetTextComment } from "./types.js";
+import { extractPotHeader } from "./utils";
 
 /**
  * Merges multiple arrays of blocks into a single set of blocks.
@@ -12,11 +12,11 @@ import { extractPotHeader } from './utils'
  * @return {SetOfBlocks} a set containing all the blocks from the input arrays
  */
 export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
-	const set = new SetOfBlocks()
+	const set = new SetOfBlocks();
 	for (const array of arrays) {
-		set.addArray(array)
+		set.addArray(array);
 	}
-	return set
+	return set;
 }
 
 /**
@@ -25,24 +25,26 @@ export function mergeBlocks(...arrays: Block[][]): SetOfBlocks {
  * @return {Promise<string>} the consolidated content as a string
  * @param filePaths
  */
-export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOfBlocks]> {
-	const headers: Block[] = []
+export async function mergePotFile(
+	filePaths: string[],
+): Promise<[Block[], SetOfBlocks]> {
+	const headers: Block[] = [];
 	const mergedSet = await Promise.all(
 		filePaths.map(async (filePath) => {
-			const fileContent = await fs.readFile(filePath, 'utf8')
-			const [header, content] = extractPotHeader(fileContent)
+			const fileContent = await fs.readFile(filePath, "utf8");
+			const [header, content] = extractPotHeader(fileContent);
 			// Store the header in the header array
-			if (header) headers.push(header)
+			if (header) headers.push(header);
 			// Parse the content and return the SetOfBlocks
-			return new SetOfBlocks(parseFileContent(content)).blocks
-		})
-	)
+			return new SetOfBlocks(parseFileContent(content)).blocks;
+		}),
+	);
 
 	// Retrieve the current blocks from the mergedSet
-	const currentBlocks = Array.from(mergedSet)
+	const currentBlocks = Array.from(mergedSet);
 
 	// Merge current blocks with the next array of blocks
-	return [Array.from(headers), mergeBlocks(...currentBlocks)]
+	return [Array.from(headers), mergeBlocks(...currentBlocks)];
 }
 
 /**
@@ -54,13 +56,13 @@ export async function mergePotFile(filePaths: string[]): Promise<[Block[], SetOf
 export function mergePotFileContent(fileContents: string[]): string {
 	// merge the files
 	const mergedSet = fileContents.map((content) => {
-		return new SetOfBlocks(parseFileContent(content)).blocks
-	})
+		return new SetOfBlocks(parseFileContent(content)).blocks;
+	});
 
 	// Retrieve the current blocks from the mergedSet
-	const currentBlocks = Array.from(mergedSet)
+	const currentBlocks = Array.from(mergedSet);
 	// Merge current blocks with the next array of blocks
-	return mergeBlocks(...currentBlocks).toStr()
+	return mergeBlocks(...currentBlocks).toStr();
 }
 
 /**
@@ -72,10 +74,10 @@ export function mergePotFileContent(fileContents: string[]): string {
 export function mergePotObject(translationObject: SetOfBlocks[]): SetOfBlocks {
 	// Merge the SetOfBlocks objects
 	const mergedSet = translationObject.map((content) => {
-		return new SetOfBlocks(content.blocks).blocks
-	})
+		return new SetOfBlocks(content.blocks).blocks;
+	});
 
-	return mergeBlocks(...mergedSet)
+	return mergeBlocks(...mergedSet);
 }
 
 /**
@@ -88,10 +90,10 @@ export function mergePotObject(translationObject: SetOfBlocks[]): SetOfBlocks {
  */
 function mergeUnique(
 	current: string | string[] = [],
-	other: string | string[] = []
+	other: string | string[] = [],
 ): string[] {
-	const mergeSet = new Set([...current, ...other])
-	return Array.from(mergeSet)
+	const mergeSet = new Set([...current, ...other]);
+	return Array.from(mergeSet);
 }
 
 /**
@@ -103,15 +105,15 @@ function mergeUnique(
  */
 export function mergeComments(
 	current: GetTextComment | undefined,
-	other: GetTextComment | undefined
+	other: GetTextComment | undefined,
 ): GetTextComment {
 	return {
 		translator: mergeUnique(current?.translator, other?.translator),
 		reference: mergeUnique(current?.reference, other?.reference),
 		extracted: mergeUnique(current?.extracted, other?.extracted),
-		flag: mergeUnique(current?.flag, other?.flag).join('\n'),
+		flag: mergeUnique(current?.flag, other?.flag).join("\n"),
 		previous: mergeUnique(current?.previous, other?.previous),
-	}
+	};
 }
 
-export { Block, SetOfBlocks, extractPotHeader }
+export { Block, SetOfBlocks, extractPotHeader };
