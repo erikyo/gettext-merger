@@ -1,8 +1,8 @@
-import { mergePotFileContent } from '../src/'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from "vitest";
+import { mergePotFileContent } from "../src/";
 
-describe('mergePotFiles', () => {
-	it('should merge blocks of strings with the same msgid', async () => {
+describe("mergePotFiles", () => {
+	it("should merge blocks of strings with the same msgid", async () => {
 		const str1 = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
 msgstr ""
@@ -20,7 +20,7 @@ msgstr ""
 #: admin/Unicorn_Admin_Core.php:82
 #: admin/Unicorn_Admin_Core.php:86
 msgid "Unicorn Magic"
-msgstr ""`
+msgstr ""`;
 
 		const str2 = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
@@ -29,7 +29,7 @@ msgstr ""
 #: admin/Unicorn_Admin_Core.php:82
 #: admin/Unicorn_Admin_Core.php:83
 msgid "Unicorn Magic"
-msgstr ""`
+msgstr ""`;
 
 		const expected = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
@@ -51,25 +51,25 @@ msgstr ""
 msgid "FantasyTech"
 msgstr ""
 
-`
-		const result = mergePotFileContent([str1, str2])
+`;
+		const result = mergePotFileContent([str1, str2]);
 
-		expect(result).toBe(expected)
-	})
+		expect(result).toBe(expected);
+	});
 
-	it('should merge blocks of strings', async () => {
+	it("should merge blocks of strings", async () => {
 		const str1 = `msgid "Unicorn Plugin"
 msgstr ""
 
 msgid "Unicorn Magic"
-msgstr ""`
+msgstr ""`;
 
 		const str2 = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
 msgstr ""
 
 msgid "Unicorn Magic"
-msgstr ""`
+msgstr ""`;
 
 		const expected = `#. Plugin Name of the plugin
 msgid "Unicorn Plugin"
@@ -78,13 +78,13 @@ msgstr ""
 msgid "Unicorn Magic"
 msgstr ""
 
-`
-		const result = mergePotFileContent([str1, str2])
+`;
+		const result = mergePotFileContent([str1, str2]);
 
-		expect(result).toBe(expected)
-	})
+		expect(result).toBe(expected);
+	});
 
-	it('should merge blocks of strings msgid_plural and multiple msgstr', async () => {
+	it("should merge blocks of strings msgid_plural and multiple msgstr", async () => {
 		const str1 = `msgid "Unicorn Plugin"
 msgstr ""
 
@@ -102,14 +102,14 @@ msgid "Unicorn Magic"
 msgstr ""
 
 msgid "Unicorn Magic"
-msgstr ""`
+msgstr ""`;
 
 		const str2 = `#. Importer view for successful product update
 #: includes/admin/importers/views/html-csv-import-done.php:28
 msgid "%s product updated"
 msgid_plural "%s products updated"
 msgstr[0] "Useless: Un prodotto è stato aggiornato"
-msgstr[1] "Useless: %s prodotti sono stati aggiornati"`
+msgstr[1] "Useless: %s prodotti sono stati aggiornati"`;
 
 		const expected = `msgid "Unicorn Plugin"
 msgstr ""
@@ -124,9 +124,9 @@ msgid_plural "%s products updated"
 msgstr[0] "Useless: Un prodotto è stato aggiornato"
 msgstr[1] "Useless: %s prodotti sono stati aggiornati"
 
-`
-		const result = mergePotFileContent([str1, str2])
+`;
+		const result = mergePotFileContent([str1, str2]);
 
-		expect(result).toBe(expected)
-	})
-})
+		expect(result).toBe(expected);
+	});
+});
